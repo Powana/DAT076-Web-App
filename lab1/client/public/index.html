@@ -22,7 +22,7 @@
           </ul>
     </nav>
 
-    <div class="container p-5 bg-secondary">
+    <div class="container p-5 vh-100 bg-secondary">
         <div class="col-8">
             <h2 class="mb-4">New Poll</h2>
             <form>
@@ -31,10 +31,31 @@
                 </div>
 
                 <div class="col-6 mb-3">
+                    <div class="col">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Text
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li><a class="dropdown-item" href="#">Text</a></li>
+                                    <li><a class="dropdown-item" href="#">Date</a></li>
+                                    <li><a class="dropdown-item" href="#">Colour</a></li>
+                                </ul>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Answer">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <img src="./img/dash-circle.svg" alt="-">
+                    </div>
+                </div>
+                <div class="col-2"></div>
+                <div class="col-6 mb-3">
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Text
+                                Date
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                 <li><a class="dropdown-item" href="#">Text</a></li>
@@ -42,13 +63,12 @@
                                 <li><a class="dropdown-item" href="#">Colour</a></li>
                             </ul>
                         </div>
-                        <input type="text" class="form-control" placeholder="Answer">
+                        <input type="date" class="form-control" placeholder="Answer">
                     </div>
                 </div>
                 <div class="col-2"></div>
-                <div class="col mb-5"><button class="btn rounded-circle" style="outline: 2px solid black"><strong>+</strong></button></div>
-                
-                <button class="btn btn-dark" type="submit">Submit form</button>
+
+                <img class="pl-2" src="./img/plus-circle.svg" alt="-" width="40px" height="40px">
             </form>
 
         <div class="col-4"></div>
