@@ -1,0 +1,14 @@
+export class AnswerOption {
+    answertext : string;
+    count : number;
+
+    constructor(answertext: string, count: number) {
+        this.answertext = answertext;
+        this.count = count;
+    }
+
+    increaseCount(){
+        this.count ++
+    }
+
+}

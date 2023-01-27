@@ -1,0 +1,12 @@
+import { AnswerOption } from "./AnswerOption";
+
+export class Poll {
+    question : string;
+    option : Array<AnswerOption>;
+
+    constructor(question: string, option: Array<AnswerOption>) {
+        this.question = question;
+        this.option = option;
+    }
+
+}
