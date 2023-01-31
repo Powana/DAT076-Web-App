@@ -1,9 +1,9 @@
 import { Choice } from "../model/choice";
 import { Poll } from "../model/poll";
 
-export interface IPollService {
+interface IPollService {
     // Returns the poll
-    getPoll() : Promise<Array<Poll>>;
+    getPoll() : Poll;
 
     // Creates a poll
     createPoll(question : string, choices : Array<Choice>) : Promise<Poll>
@@ -12,12 +12,14 @@ export interface IPollService {
     incrementCount(choice : number) : Promise<boolean>
 }
 
-class PollService implements IPollService {
+export class PollService implements IPollService {
+
+    static thePoll : Poll;
 
     polls : Array<Poll> = [];
 
-    getPoll(): Promise<Array<Poll>> {
-       return this.polls;
+    getPoll(): Poll {
+        return PollService.thePoll;
     }
     incrementCount(choice: number): Promise<boolean> {
         throw new Error("Method not implemented.");

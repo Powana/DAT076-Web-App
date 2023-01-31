@@ -11,5 +11,8 @@ export class Choice {
         this.count += 1;
     }
 
+    public toString = () : string => {
+        return this.text;
+    }
     
 }
