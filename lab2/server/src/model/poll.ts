@@ -1,12 +1,12 @@
-    import { Choice } from "./choice";
+    import { IChoice } from "./choice";
 
     export class Poll {
         question : string;
-        choices :  Map<Choice, number>;
+        choices :  Map<IChoice, number>;
 
-        constructor(question: string, choices: Array<Choice>) {
+        constructor(question: string, choices: Array<IChoice>) {
             this.question = question;
-            this.choices = new Map<Choice, number>();
+            this.choices = new Map<IChoice, number>();
 
             choices.forEach(choice => {
                 this.choices.set(choice, 0);
