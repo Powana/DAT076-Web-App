@@ -24,8 +24,8 @@ export class PollService implements IPollService {
     getPoll(): Poll {
         return PollService.thePoll;  // For demonstration purposes, limit to one poll at a time
     }
-    incrementCount(choice: number): boolean {
-        throw new Error("Method not implemented.");
+    incrementCount(choice: IChoice): boolean {
+        return PollService.thePoll.incrementCount(choice);
     }
 
     createPoll(question: string, choices: Array<IChoice>): Poll {
