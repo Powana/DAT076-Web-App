@@ -6,35 +6,34 @@ import { Poll } from "../model/poll";
 // Would make more sense to create a 'Poll' interface as we could have different implementations of Polls
 interface IPollService {
     // Returns the poll
-    getPoll() : Poll;
+    getPoll() : Promise<Poll>;
 
     // Creates a poll
-    createPoll(question : string, choices : Array<IChoice>) : Poll;
+    createPoll(question : string, choices : Array<IChoice>) : Promise<Poll>;
 
     // Increments a choice in the poll
-    incrementCount(choice : number) : boolean;
+    incrementCount(choice : number) : Promise<boolean>;
 }
 
 export class PollService implements IPollService {
 
-    static thePoll : Poll;
 
     polls : Array<Poll> = [];
 
-    getPoll(): Poll {
-        return PollService.thePoll;  // For demonstration purposes, limit to one poll at a time
+    async getPoll(): Promise<Poll> {
+        return this.polls[0];  // For demonstration purposes, limit to one poll at a time
     }
-    incrementCount(choice: IChoice): boolean {
-        return PollService.thePoll.incrementCount(choice);
+    async incrementCount(choice: IChoice): Promise<boolean> {
+        return this.polls[0].incrementCount(choice);
     }
 
-    createPoll(question: string, choices: Array<IChoice>): Poll {
+    async createPoll(question: string, choices: Array<IChoice>): Promise<Poll> {
         const poll = new Poll(question, choices);
-        this.polls.push(poll)
+        this.polls.push(poll);
         return poll;
     }
     
-    createPollFromAny(question: string, choices: any[]): Poll {
+    async createPollFromAny(question: string, choices: any[]): Promise<Poll> {
         let parsed_choices = new Array<IChoice>;
 
         choices.forEach(choice => {
