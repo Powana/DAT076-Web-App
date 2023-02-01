@@ -14,31 +14,30 @@ pollRouter.route("/")
 
             }
             else {
-                res.status(200).send(PollService.thePoll.question)
+                res.status(200).send(PollService.thePoll)
             }
         } catch (e: any) {
             res.status(500).send(e.message);
         }
     })
-    .post((req : Request<{}, {}, {question: string, choices: Array<string>}>, res : Response<Poll | string>) => {
+    .post((req : Request<{}, {}, {question: string, choices: Array<any>}>, res) => {
         try {
             const question: string = req.body["question"]
-            const choices_strs: Array<string> = req.body["choices"] 
+            const raw_choices: Array<string> = req.body["choices"] 
             
-            if (question == null || choices_strs == null) {
+            if (question == null || raw_choices == null) {
                 res.status(400).send("Invalid payload")
             }
             
-            if (choices_strs.length != 3) {  // For demonstration purposes TODO: Remove
+            if (raw_choices.length != 3) {  // For demonstration purposes TODO: Remove
                 res.status(400).send("Polls must have 3 choices")
             }
 
-            let newPoll = pollService.createPollFromAny(question, choices_strs);
+            let newPoll = pollService.createPollFromAny(question, raw_choices);
             
             PollService.thePoll = newPoll; // For demonstration purposes TODO: Remove
-            console.log("The new poll:", newPoll)
             
-            res.status(201).send(newPoll);
+            res.status(201).send(newPoll.toJSON());
 
         } catch (e: any) {
             res.status(500).send(e.message);

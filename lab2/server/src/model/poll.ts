@@ -12,4 +12,8 @@
                 this.choices.set(choice, 0);
             });
         }
+
+        public toJSON() {
+            return {question: this.question, choices: Object.fromEntries(this.choices)}
+        }
     }
