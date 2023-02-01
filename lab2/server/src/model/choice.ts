@@ -1,18 +1,31 @@
-export class Choice {
+export interface IChoice {
+    toString(): string;
+}
+
+
+export class TextChoice implements IChoice {
     text : string;
-    count: number;
 
     constructor(text: string) {
         this.text = text;
-        this.count = 0;
-    }
-
-    incrementCount() {
-        this.count += 1;
     }
 
     public toString = () : string => {
         return this.text;
+    }
+    
+}
+
+// Example of another type of choice we could have
+export class DateChoice implements IChoice {
+    date : Date;
+
+    constructor(date : Date) {
+        this.date = date;
+    }
+
+    public toString = () : string => {
+        return this.date.toLocaleDateString();
     }
     
 }
