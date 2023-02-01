@@ -16,4 +16,14 @@
         public toJSON() {
             return {question: this.question, choices: Object.fromEntries(this.choices)}
         }
+
+        public incrementCount(choice : IChoice): boolean {
+            let count = this.choices.get(choice);
+            if (count == null) {
+                return false;
+            }
+            count += 1;
+            this.choices.set(choice, count)
+            return true;
+        }
     }

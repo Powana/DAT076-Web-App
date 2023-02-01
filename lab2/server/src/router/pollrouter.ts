@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { PollService } from "../service/pollservice";
 import { Poll } from "../model/poll";
-import { TextChoice } from "../model/choice";
+import { IChoice, TextChoice } from "../model/choice";
 
 export const pollRouter = express.Router();
 const pollService = new PollService();
@@ -38,6 +38,20 @@ pollRouter.route("/")
             PollService.thePoll = newPoll; // For demonstration purposes TODO: Remove
             
             res.status(201).send(newPoll.toJSON());
+
+        } catch (e: any) {
+            res.status(500).send(e.message);
+        }
+    })
+    .put((req: Request<{}, {}, {choice: IChoice}>, res) => {
+        try {
+            const choice: IChoice = req.body["choice"]
+            
+            if (choice == null) {
+                res.status(400).send("Invalid payload")
+            }
+            
+            res.status(200).send(pollService.incrementCount(choice));
 
         } catch (e: any) {
             res.status(500).send(e.message);
