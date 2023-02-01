@@ -47,6 +47,8 @@ export class PollService implements IPollService {
                     throw Error("Invalid choice type")
                 }
             }
+
+            
         });
 
 
@@ -55,5 +57,5 @@ export class PollService implements IPollService {
         return poll;
     }
 
-    
+
 }
