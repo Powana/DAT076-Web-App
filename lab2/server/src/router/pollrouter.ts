@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
-import { PollService } from "../service/poll";
+import { PollService } from "../service/pollservice";
 import { Poll } from "../model/poll";
-import { Choice } from "../model/choice";
+import { TextChoice } from "../model/choice";
 
 export const pollRouter = express.Router();
 const pollService = new PollService();
@@ -9,9 +9,8 @@ const pollService = new PollService();
 pollRouter.route("/")
     .get((req : Request, res : Response) => {
         try {
-            // const tasks = await taskService.getTasks();
             if (PollService.thePoll == null) {  // At the moment, only allow for one poll for simple testing purposes.
-                res.status(200).send("No poll has been created"); //PollService.thePoll);
+                res.status(200).send("No poll has been created");
 
             }
             else {
@@ -21,22 +20,26 @@ pollRouter.route("/")
             res.status(500).send(e.message);
         }
     })
-    .post((req : Request, res : Response) => {
+    .post((req : Request<{}, {}, {question: string, choices: Array<string>}>, res : Response<Poll | string>) => {
         try {
-            
             const question: string = req.body["question"]
             const choices_strs: Array<string> = req.body["choices"] 
-            if (choices_strs.length != 3) {
+            
+            if (question == null || choices_strs == null) {
+                res.status(400).send("Invalid payload")
+            }
+            
+            if (choices_strs.length != 3) {  // For demonstration purposes TODO: Remove
                 res.status(400).send("Polls must have 3 choices")
             }
-            const choices = new Array<Choice>(new Choice(choices_strs[0]), new Choice(choices_strs[1]), new Choice(choices_strs[2]))
-            const newPoll = new Poll(question, choices);
+
+            let newPoll = pollService.createPollFromAny(question, choices_strs);
             
-            PollService.thePoll = newPoll;
-            console.log("choice #1:", choices)
-            console.log("newPOll:", newPoll)
+            PollService.thePoll = newPoll; // For demonstration purposes TODO: Remove
+            console.log("The new poll:", newPoll)
             
             res.status(201).send(newPoll);
+
         } catch (e: any) {
             res.status(500).send(e.message);
         }
