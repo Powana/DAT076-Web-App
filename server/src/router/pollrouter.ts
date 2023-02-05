@@ -7,11 +7,11 @@ export const pollRouter = express.Router();
 const pollService = new PollService();
 
 pollRouter.route("/")
+    // GET /poll/ Main page
     .get(async (req : Request, res : Response) => {
         try {
             if ((await pollService.getPoll()) == null) {  // At the moment, only allow for one poll for simple testing purposes.
                 res.status(200).send("No poll has been created");
-
             }
             else {
                 res.status(200).send(await pollService.getPoll())
@@ -20,6 +20,7 @@ pollRouter.route("/")
             res.status(500).send(e.message);
         }
     })
+    // POST /poll/ Create a new poll, Payload format {"question": <question: str>, "choices": [<array of choice str>]}
     .post(async (req : Request<{}, {}, {question: string, choices: Array<any>}>, res) => {
         try {
             const question: string = req.body["question"]
