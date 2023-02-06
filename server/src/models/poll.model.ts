@@ -12,13 +12,7 @@ export class Poll extends Model {
   @HasMany(() => TextChoice)  
   choices!: TextChoice[];
 
-  public incrementCount(choice : IChoice): boolean {
-    let count = this.choices.get(choice);
-    if (count == null) {
-        return false;
-    }
-    count += 1;
-    this.choices.set(choice, count)
-    return true;
+  public incrementCount(choice : TextChoice) {
+    // TODO
 }
 }

@@ -1,4 +1,4 @@
-import { Table, Model, Column, ForeignKey, BelongsTo } from "sequelize-typescript";
+import { Table, Model, Column, ForeignKey, BelongsTo, Default, AllowNull } from "sequelize-typescript";
 import { Poll } from "./poll.model";
 
 export interface IChoice {
@@ -10,6 +10,8 @@ export class TextChoice extends Model implements IChoice {
     @Column
     text!: string;
 
+    @Default(0)
+    @AllowNull(false)
     @Column
     votes!: number;
 

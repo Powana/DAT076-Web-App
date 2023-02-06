@@ -1,5 +1,5 @@
-import { IChoice, TextChoice } from "../model/choice";
-import { Poll } from "../model/poll";
+import { IChoice, TextChoice } from "../models/choice.model";
+import { Poll } from "../models/poll.model";
 
 
 // Having an interface doesn't really make sense as we're only ever going to create one PollService
@@ -12,24 +12,26 @@ interface IPollService {
     createPoll(question : string, choices : Array<IChoice>) : Promise<Poll>;
 
     // Increments a choice in the poll
-    incrementCount(choice : number) : Promise<boolean>;
+    // incrementCount(choice : number) : Promise<boolean>;
 }
 
 export class PollService implements IPollService {
 
-
-    polls : Array<Poll> = [];
-
     async getPoll(): Promise<Poll> {
-        return this.polls[0];  // For demonstration purposes, limit to one poll at a time
+        let foundPoll = await Poll.findOne();  // For demonstration purposes, limit to one poll at a time, simply select the first poll found
+        if (foundPoll === null) {
+            return Promise.reject("No poll found.")
+        }
+        return foundPoll;
     }
-    async incrementCount(choice: IChoice): Promise<boolean> {
-        return this.polls[0].incrementCount(choice);
-    }
+    // TODO
+    //async incrementCount(choice: TextChoice): Promise<boolean> {
+    //    
+    //}
 
     async createPoll(question: string, choices: Array<IChoice>): Promise<Poll> {
-        const poll = new Poll(question, choices);
-        this.polls.push(poll);
+        const poll = new Poll({question, choices});
+        poll.save();
         return poll;
     }
     
@@ -39,7 +41,9 @@ export class PollService implements IPollService {
         choices.forEach(choice => {
             switch (typeof(choice)){
                 case "string": {
-                    parsed_choices.push(new TextChoice(choice));
+                    let tc = TextChoice.create({choice})
+                    parsed_choices.push(tc);  // Create a new TextChoice, save it, and pass it to the list
+                    // parsed_choices.push(new TextChoice({choice}).save());  // Create a new TextChoice, save it, and pass it to the list
                     break;
                 }
                 default: {
@@ -49,8 +53,8 @@ export class PollService implements IPollService {
         });
 
 
-        const poll = new Poll(question, choices);
-        this.polls.push(poll)
+        const poll = new Poll({question, choices});
+        poll.save();
         return poll;
     }
 }

@@ -1,11 +1,13 @@
 import { app } from "./start";
 import { config } from "./config";
+import {TextChoice} from "./models/choice.model"
+import {Poll} from "./models/poll.model"
+import { Sequelize } from "sequelize-typescript";
 
 
 /**
  * App Variables
 */
-const Sequelize = require("sequelize");
 
 // Copy vars here as simple reminder that they need to be set
 const PORT : number = config.PORT;
@@ -19,22 +21,27 @@ const DB_PASS = config.DB_PASS;
 */
 
 const sequelize = new Sequelize(
-    DB_NAME,
-    DB_USER,
-    DB_PASS,
     {
         host: DB_HOST,
+        database: DB_NAME,
+        username: DB_USER,
+        password: DB_PASS,
         dialect: 'mysql',
     
-        models: ["./models"]  // Relative path to our models
+        models: [Poll, TextChoice]  // Relative path to our models
     }
 );
-sequelize.authenticate().then(() => {
+
+(async () => {
+    /*sequelize.authenticate().then(() => {
         console.log('DB Connection has been established successfully.');
     }).catch((error: any) => {
-        console.error('Unable to connect to the database: ', error);
- });
-
-app.listen(PORT, () => {
-    console.log(`listening on port ${PORT}`);
-});
+        throw Error('Unable to connect to the database: ' + error);
+    });*/
+    await sequelize.sync({ force: true }).catch((error: any) => {throw Error('Unable to sync to database: ' + error);});
+    sequelize.addModels([TextChoice]);
+    // const person = new TextChoice({choice: "choice"});
+    app.listen(PORT, () => {
+        console.log(`listening on port ${PORT}`);
+    });
+})();
