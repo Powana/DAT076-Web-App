@@ -9,10 +9,10 @@ export class Poll extends Model {
   // Define one-to-many relationship between Poll and Choice
   // TODO: How to have a db that can have multiple choice types?
   // Maybe just have them all be text and then have a struct/string that defines how to treat the text
-  @HasMany(() => TextChoice)  
+  @HasMany(() => TextChoice)
   choices!: TextChoice[];
 
   public incrementCount(choice : TextChoice) {
     // TODO
-}
+  }
 }

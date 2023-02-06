@@ -12,7 +12,14 @@ pollRouter.route("/")
         try {
             await pollService.getPoll().then(
                 (foundPoll) => {  // At the moment, only allow for one poll for simple testing purposes.
-                    res.status(200).send(foundPoll)
+                    // Debug for testing purposes
+                    foundPoll.$get("choices").then((foundPollChoices) => {
+                        for (let c of foundPollChoices) {
+                            console.log(c);
+                        }
+                    })
+                    console.log("CCC");
+                    res.status(200).send(foundPoll)// This is an example payload, containing only simple text, TODO: Find a better way to return this
                 }, () => {
                     res.status(200).send("No poll has been created");
                 })

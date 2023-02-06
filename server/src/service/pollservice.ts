@@ -37,11 +37,13 @@ export class PollService implements IPollService {
     
     async createPollFromAny(question: string, choices: any[]): Promise<Poll> {
         let parsed_choices = new Array<IChoice>;
-
+        const poll = new Poll({question: question});
+        // const pollId = poll.$get("id");
         choices.forEach(choice => {
             switch (typeof(choice)){
                 case "string": {
-                    parsed_choices.push(new TextChoice({text: choice}).save());  // Create a new TextChoice, save it, and pass it to the list
+                    parsed_choices.push(poll.$create("choice", {text: choice }));// .then((tc: TextChoice) => {tc.}));  // Create a new TextChoice, save it, and pass it to the list
+                    // parsed_choices.push(new TextChoice({text: choice, pollId: pollId}).save());// .then((tc: TextChoice) => {tc.}));  // Create a new TextChoice, save it, and pass it to the list
                     break;
                 }
                 default: {
@@ -49,8 +51,6 @@ export class PollService implements IPollService {
                 }
             }
         });
-
-        const poll = new Poll({question, choices});
         poll.save();
         return poll;
     }

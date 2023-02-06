@@ -38,6 +38,7 @@ const sequelize = new Sequelize(
     }).catch((error: any) => {
         throw Error('Unable to connect to the database: ' + error);
     });
+    // force: true will wipe any existing tables, useful for dev.
     await sequelize.sync({ force: true }).catch((error: any) => {throw Error('Unable to sync to database: ' + error);});
 
     // const person = new TextChoice({choice: "choice"});
