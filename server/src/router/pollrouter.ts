@@ -34,8 +34,8 @@ pollRouter.route("/")
                 res.status(400).send("Polls must have 3 choices")
             }
             else {
-                let newPoll = await pollService.createPollFromAny(question, raw_choices).then(
-                    () => {  // If a new poll was succesfully created:
+                await pollService.createPollFromAny(question, raw_choices).then(
+                    (newPoll) => {  // If a new poll was succesfully created:
                         res.status(201).send(newPoll);
                     }, (error) => { // If a new poll was not created:
                         res.status(400).send("Poll was not created, error: " + error)
