@@ -41,9 +41,7 @@ export class PollService implements IPollService {
         choices.forEach(choice => {
             switch (typeof(choice)){
                 case "string": {
-                    let tc = TextChoice.create({choice})
-                    parsed_choices.push(tc);  // Create a new TextChoice, save it, and pass it to the list
-                    // parsed_choices.push(new TextChoice({choice}).save());  // Create a new TextChoice, save it, and pass it to the list
+                    parsed_choices.push(new TextChoice({text: choice}).save());  // Create a new TextChoice, save it, and pass it to the list
                     break;
                 }
                 default: {
@@ -51,7 +49,6 @@ export class PollService implements IPollService {
                 }
             }
         });
-
 
         const poll = new Poll({question, choices});
         poll.save();

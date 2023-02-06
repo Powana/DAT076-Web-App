@@ -33,13 +33,13 @@ const sequelize = new Sequelize(
 );
 
 (async () => {
-    /*sequelize.authenticate().then(() => {
+    sequelize.authenticate().then(() => {
         console.log('DB Connection has been established successfully.');
     }).catch((error: any) => {
         throw Error('Unable to connect to the database: ' + error);
-    });*/
+    });
     await sequelize.sync({ force: true }).catch((error: any) => {throw Error('Unable to sync to database: ' + error);});
-    sequelize.addModels([TextChoice]);
+
     // const person = new TextChoice({choice: "choice"});
     app.listen(PORT, () => {
         console.log(`listening on port ${PORT}`);

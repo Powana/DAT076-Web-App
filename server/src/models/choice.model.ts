@@ -28,6 +28,8 @@ export class DateChoice extends Model implements IChoice {
     @Column
     date!: Date;
 
+    @Default(0)
+    @AllowNull(false)
     @Column
     votes!: number;
 
