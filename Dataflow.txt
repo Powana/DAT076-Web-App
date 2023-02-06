@@ -1,0 +1,13 @@
+Describe the data flow for this use case in the following form:
+When the app first starts, the user sees...                                 two options "create new poll" and "Answer poll" (chooses "answer poll") [1]
+The frontend sends a [GET/PUT/...] request to the backend with body ...     GET poll.id 
+The backend returns a response with body ...                                the poll with question and 3 choices 
+The frontend displays ... to the user                                       the poll to the user
+The user performs the following input: ...                                  voting on a choice
+The frontend sends a [GET/PUT/...] request to the backend with body ...     PUT increment(choice) 
+The backend returns a response with body ...                                status 200, "choice incremented"
+The frontend displays ... to the user                                       "your vote has been counted", displayes the 2 options at [1] again (chooses "create new poll") 
+The user performs the following input: ...                                  enters question and 3 choices
+The frontend sends a [GET/PUT/...] request to the backend with body ...     POST poll
+The backend returns a response with body ...                                status 201, "poll created"
+The frontend displays ... to the user                                       "Your poll has id XXX", displayes the 2 options at [1] again 
