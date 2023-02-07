@@ -11,3 +11,21 @@ The user performs the following input: ...                                  ente
 The frontend sends a [GET/PUT/...] request to the backend with body ...     POST poll
 The backend returns a response with body ...                                status 201, "poll created"
 The frontend displays ... to the user                                       "Your poll has id XXX", displayes the 2 options at [1] again 
+
+
+
+Components: 
+        Button:
+                "create new poll"
+                "Answer poll"
+                "Submit vote"
+                "Submit poll"
+        toast: 
+                confirmations "your vote has been counted" "Your poll has id XXX"
+        FormControl:    
+                "Enter question"
+                "choice 1-3"
+        NavBar:
+                
+        radio
+                "choice option"

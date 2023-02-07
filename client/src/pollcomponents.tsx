@@ -1,0 +1,83 @@
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import { text } from 'stream/consumers';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+
+function Choicefield() {
+  return (
+      <div className ="choicefield">
+        <form>
+        <label>Enter answer</label>
+        <input type="text" name="ans"></input>
+      </form>
+      </div>
+  );
+}
+
+function Questionfield() {
+    return (
+      <>
+       <h2> Create a question </h2>
+        <form>
+          <label>Enter question</label>
+          <input type="text" placeholder="pollingquestion" name="ques"></input>
+        </form>
+    </>
+    );
+  }
+
+
+  function Submit() {
+    return (
+      <>
+        <Button variant="primary">Submit</Button>{' '}
+    </>
+    );
+  }
+
+  function Add_answer() {
+    return (
+      <>
+        <Button variant="primary">add Answer</Button>{' '}
+      </>
+    );
+  }
+  
+
+  function PollNavBar() {
+    return(
+        <Navbar bg="light" expand="lg">
+      <Container>
+        <Navbar.Brand href="#home">PollStar</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link href="#home">Home</Nav.Link>
+            <Nav.Link href="#link">Link</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+    )
+  }
+
+  function Create_page(){
+    return(
+        <>
+            <Questionfield /> 
+            <h2 >Possible answers </h2>
+            <Choicefield/>
+            <Choicefield/>
+            <Choicefield/>
+            <Add_answer/>
+            <Submit/>
+          
+        </>
+        
+    );
+  }
+  export default Create_page
