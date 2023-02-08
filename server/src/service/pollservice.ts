@@ -36,7 +36,7 @@ export class PollService implements IPollService {
     }
     
     async createPollFromAny(question: string, choices: any[]): Promise<Poll> {
-        let parsed_choices = new Array<IChoice>;
+        let parsed_choices = new Array<IChoice>();
         const poll = new Poll({question: question});
         // const pollId = poll.$get("id");
         choices.forEach(choice => {

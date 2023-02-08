@@ -2,14 +2,20 @@ import express, { Request, Response } from "express";
 import { PollService } from "../service/pollservice";
 import { Poll } from "../models/poll.model";
 import { IChoice, TextChoice } from "../models/choice.model";
+import { config } from "../config";
 
 export const pollRouter = express.Router();
 const pollService = new PollService();
 
 pollRouter.route("/")
-    // GET /poll/ Main page
+    // GET /poll/ Main page TODO: Move logic out of router
     .get(async (req : Request, res : Response) => {
         try {
+            if (config.FAKE_DB) {
+                res.status(200).send({question: "Apples?", choices: ["Yes", "No", "Maybe"]})
+                return;
+            }
+
             await pollService.getPoll().then(
                 (foundPoll) => {  // At the moment, only allow for one poll for simple testing purposes.
                     // Debug for testing purposes
