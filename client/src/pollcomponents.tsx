@@ -9,7 +9,7 @@ import Navbar from 'react-bootstrap/Navbar';
 
 function Choicefield() {
   return (
-      <div className ="choicefield">
+      <div className ="Choicebox">
         <form>
         <label>Enter answer</label>
         <input type="text" name="ans"></input>
@@ -20,30 +20,30 @@ function Choicefield() {
 
 function Questionfield() {
     return (
-      <>
+      <div className="Questionbox">
        <h2> Create a question </h2>
         <form>
           <label>Enter question</label>
-          <input type="text" placeholder="pollingquestion" name="ques"></input>
+          <input type="text" placeholder="Question" name="ques"></input>
         </form>
-    </>
+    </div>
     );
   }
 
 
   function Submit() {
     return (
-      <>
+      <div>
         <Button variant="primary">Submit</Button>{' '}
-    </>
+    </div>
     );
   }
 
   function Add_answer() {
     return (
-      <>
-        <Button variant="primary">add Answer</Button>{' '}
-      </>
+      <div>
+        <Button variant="primary">add Answer</Button>{''}
+      </div>
     );
   }
   
@@ -67,17 +67,26 @@ function Questionfield() {
 
   function Create_page(){
     return(
-        <>
-            <Questionfield /> 
-            <h2 >Possible answers </h2>
-            <Choicefield/>
-            <Choicefield/>
-            <Choicefield/>
-            <Add_answer/>
-            <Submit/>
+    <div>
+      <div className="container text-center"></div>
+    
+      <div className="row">
+        <div className="col"></div>
+        <div className="col">
+          <div className="NewPoll">
+              <Questionfield /> 
+              <h2 >Possible answers </h2>
+              <Choicefield/>
+              <Choicefield/>
+              <Choicefield/>
+              <Add_answer/>
+              <Submit/>
           
-        </>
-        
+          </div>
+        </div>
+        <div className="col"></div>
+      </div>
+    </div>
     );
   }
   export default Create_page
