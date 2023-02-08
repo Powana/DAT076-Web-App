@@ -6,34 +6,55 @@ import { Poll } from "../model/poll";
 // Would make more sense to create a 'Poll' interface as we could have different implementations of Polls
 interface IPollService {
     // Returns the poll
-    getPoll() : Promise<Poll>;
+    getPoll() : Poll;
 
     // Creates a poll
-    createPoll(question : string, choices : Array<IChoice>) : Promise<Poll>;
+    createPoll(id:number,question : string, choices : Array<IChoice>) : Poll;
 
     // Increments a choice in the poll
-    incrementCount(choice : number) : Promise<boolean>;
+    incrementCount(id:number,choice : number) : boolean;
+
+    //add comment
+    addcomment(id:number,comment:string):boolean;
+
+    add_answer(id:number,answer:string):Poll;
 }
 
 export class PollService implements IPollService {
 
+    static thePoll : Poll;
 
     polls : Array<Poll> = [];
 
-    async getPoll(): Promise<Poll> {
-        return this.polls[0];  // For demonstration purposes, limit to one poll at a time
+    getPoll(): Poll {
+        return PollService.thePoll;  // For demonstration purposes, limit to one poll at a time
     }
-    async incrementCount(choice: IChoice): Promise<boolean> {
-        return this.polls[0].incrementCount(choice);
+    incrementCount(id:number,choice: IChoice): boolean {
+        let idd=0
+        for (let i=0;i<this.polls.length;i++){
+            if (this.polls[i].id==id){
+                idd=i
+            }
+        }
+        const poll=this.polls[idd]
+        return PollService.thePoll.incrementCount(choice);
     }
 
-    async createPoll(question: string, choices: Array<IChoice>): Promise<Poll> {
-        const poll = new Poll(question, choices);
-        this.polls.push(poll);
+    addcomment(id:number,comment: string): boolean {
+        if (comment==null){
+            return false;
+        }
+        PollService.thePoll.comments.push(comment);
+        return true;
+    }
+
+    createPoll(id:number,question: string, choices: Array<IChoice>): Poll {
+        const poll = new Poll(id,question, choices);
+        this.polls.push(poll)
         return poll;
     }
     
-    async createPollFromAny(question: string, choices: any[]): Promise<Poll> {
+    createPollFromAny(id:number,question: string, choices: any[]): Poll {
         let parsed_choices = new Array<IChoice>;
 
         choices.forEach(choice => {
@@ -49,8 +70,20 @@ export class PollService implements IPollService {
         });
 
 
-        const poll = new Poll(question, choices);
+        const poll = new Poll(id,question, choices);
         this.polls.push(poll)
         return poll;
+    }
+
+
+
+    //i do not know how to add 1 answer to map structure
+    add_answer(id:number,answer:string):Poll{
+        let oldchoices=PollService.thePoll.choices.keys;
+        let newchoices=oldchoices.push(new TextChoice(answer));
+        let newpoll=new Poll(id,PollService.thePoll.question, newchoices);
+
+
+        return newpoll;
     }
 }
