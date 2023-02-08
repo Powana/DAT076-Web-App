@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
-import Button from 'react-bootstrap/Button'
 
 function App() {
+  const [question, setQuestion] = useState<string>();
+  const [choices, setChoices] = useState<Array<string>>();
+
+  React.useEffect(() => {
+
+    fetch("/poll")
+      .then((res) => res.json())
+      .then((data) => {
+          setQuestion(data.question);
+          setChoices(data.choices);
+      })
+      .catch((err) => {
+        console.log(err.message);
+     });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <Button>Hellooooo</Button>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="Apps">
+      {question}
+      Choices:
+      {choices?.map(choice => {
+          return <li>{choice[0]}</li>;
+        })}
     </div>
   );
 }
