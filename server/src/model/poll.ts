@@ -1,36 +1,53 @@
-import { IChoice } from "./choice";
+import { IChoice, TextChoice } from "./choice";
 
     export class Poll {
         id:number;
         question : string;
-        choices :  Map<IChoice, number>;
+        choices :  IChoice[];
         comments:string[];
 
-        constructor(id:number,question: string, choices: Array<IChoice>) {
+        constructor(id:number,question: string, choices: Array<string>) {
             this.id=id;
             this.question = question;
-            this.choices = new Map<IChoice, number>();
+            let lista:Array<IChoice>=[];
+            choices.forEach(function (value) {
+                lista.push(new TextChoice(value))
+              });
+            this.choices = lista;
             this.comments=[]; //you can not add comments when you create the poll
-
-
-            //el mapeado sirve para ver el numero de veces que ha sido votado
-            choices.forEach(choice => {
-                this.choices.set(choice, 0);
-            });
         }
 
         public toJSON() {
-            return {id:this.id,question: this.question, choices: Object.fromEntries(this.choices),comments:this.comments}
+            return {
+                id:this.id,question: this.question, choices: this.choices,comments:this.comments
+            }
         }
 
-        public incrementCount(choice : IChoice): boolean {
-            
-            let count = this.choices.get(choice);
-            if (count == null) {
-                return false;
+        //simple choice
+        public incrementCount(choice : string) :boolean{
+            let x:boolean=false;
+            this.choices.forEach(function (value) {
+                if (choice==value.toString()){
+                    value.incrementCount();
+                    x= true;
+                }
+                });
+                return x;
+
+        }
+        //multiple choices
+        public incrementCounts(answers : Array<string>) :boolean{
+            let x:boolean=false;
+            for (let i=0;i<answers.length;i++){
+                this.choices.forEach(function (value) {
+                    if (answers[i]==value.toString()){
+                        value.incrementCount();
+                        x= true;
+                    }
+                    });
             }
-            count += 1;
-            this.choices.set(choice, count)
-            return true;
+            
+                return x;
+
         }
     }
