@@ -8,19 +8,23 @@ interface IPollService {
     // Returns the poll
     getPoll() : Poll;
 
-    // Creates a poll
-    createPoll(id:number,question : string, choices : Array<IChoice>) : Poll;
+    //getPolls() : Array<Poll>;
 
-    // Increments a choice in the poll
-    incrementCount(id:number,choice : number) : boolean;
+    // Creates a poll
+    createPoll(id:number,question : string, choices : Array<string>) : Poll;
 
     //add comment
     addcomment(id:number,comment:string):boolean;
 
+    //extendable answer
     add_answer(id:number,answer:string):Poll;
+
+    //select poll by id
+    chosepoll(id:number):Poll;
 }
 
 export class PollService implements IPollService {
+    static polls: null;
 
     static thePoll : Poll;
 
@@ -29,32 +33,34 @@ export class PollService implements IPollService {
     getPoll(): Poll {
         return PollService.thePoll;  // For demonstration purposes, limit to one poll at a time
     }
-    incrementCount(id:number,choice: IChoice): boolean {
-        let idd=0
-        for (let i=0;i<this.polls.length;i++){
-            if (this.polls[i].id==id){
-                idd=i
-            }
-        }
-        const poll=this.polls[idd]
-        return PollService.thePoll.incrementCount(choice);
+    
+    chosepoll(id:number):Poll{
+        return this.polls[id]
     }
 
+
     addcomment(id:number,comment: string): boolean {
-        if (comment==null){
-            return false;
-        }
-        PollService.thePoll.comments.push(comment);
+        let actualPoll:Poll;
+        actualPoll=this.chosepoll(id);
+        actualPoll.comments.push(comment);
         return true;
     }
 
-    createPoll(id:number,question: string, choices: Array<IChoice>): Poll {
+    //add 1 answer to the structure
+    add_answer(id:number,answer:string):Poll{
+        let poll:Poll;
+        poll=this.chosepoll(id);
+        poll.choices.push(new TextChoice(answer));
+        return poll;
+    }
+
+    createPoll(id:number,question: string, choices: Array<string>): Poll {
         const poll = new Poll(id,question, choices);
         this.polls.push(poll)
         return poll;
     }
     
-    createPollFromAny(id:number,question: string, choices: any[]): Poll {
+    createPollFromAny(question: string, choices: any[]): Poll {
         let parsed_choices = new Array<IChoice>;
 
         choices.forEach(choice => {
@@ -70,20 +76,9 @@ export class PollService implements IPollService {
         });
 
 
-        const poll = new Poll(id,question, choices);
+        const poll = new Poll(0,question, choices);
         this.polls.push(poll)
         return poll;
     }
 
-
-
-    //i do not know how to add 1 answer to map structure
-    add_answer(id:number,answer:string):Poll{
-        let oldchoices=PollService.thePoll.choices.keys;
-        let newchoices=oldchoices.push(new TextChoice(answer));
-        let newpoll=new Poll(id,PollService.thePoll.question, newchoices);
-
-
-        return newpoll;
-    }
 }
