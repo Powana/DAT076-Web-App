@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import './App.css';
+import './PollEditApp.css';
 
-function App() {
+function PollEditApp() {
   const [question, setQuestion] = useState<string>();
   const [choices, setChoices] = useState<Array<string>>();
 
@@ -19,14 +19,16 @@ function App() {
   }, []);
 
   return (
-    <div className="Apps">
+    <div className="PollEditApp">
       {question}
       Choices:
+      <ul>
       {choices?.map(choice => {
-          return <li>{choice[0]}</li>;
+          return <li>{choice}</li>;
         })}
+      </ul>
     </div>
   );
 }
 
-export default App;
+export default PollEditApp;
