@@ -2,11 +2,14 @@ import React, { useEffect, useImperativeHandle, useState } from 'react';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 
-export function SingleChoiceList(props : {choices : Array<String>}) {
+export function SingleChoiceList(props : {choices : Array<String>, setChoice: any}) {
 
 
-  const [checked, setChecked] = useState(false);
   const [radioValue, setRadioValue] = useState('-1');
+  function updateChoice(choice: string): void {
+    setRadioValue(choice);
+    props.setChoice(choice);
+  }
 
   const radios = props.choices.map(
     (choice, index) => ({name : choice, value : index.toString()})
@@ -25,7 +28,7 @@ export function SingleChoiceList(props : {choices : Array<String>}) {
             name="radio"
             value={radio.value}
             checked={radioValue === radio.value}
-            onChange={(e) => setRadioValue(e.currentTarget.value)}
+            onChange={(e) => updateChoice(e.currentTarget.value)}
           >
             {radio.name}
           </ToggleButton>
