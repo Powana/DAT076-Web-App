@@ -7,6 +7,8 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
+
+
 function Choicefield() {
   return (
       <div className ="Choicebox">
@@ -33,7 +35,7 @@ function Questionfield() {
 
   function Submit() {
     return (
-      <div>
+      <div className="Button">
         <Button variant="primary">Submit</Button>{' '}
     </div>
     );
@@ -41,29 +43,12 @@ function Questionfield() {
 
   function Add_answer() {
     return (
-      <div>
+      <div className="Button">
         <Button variant="primary">add Answer</Button>{''}
       </div>
     );
   }
-  
 
-  function PollNavBar() {
-    return(
-        <Navbar bg="light" expand="lg">
-      <Container>
-        <Navbar.Brand href="#home">PollStar</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-    )
-  }
 
   function Create_page(){
     return(
@@ -75,10 +60,12 @@ function Questionfield() {
         <div className="col">
           <div className="NewPoll">
               <Questionfield /> 
-              <h2 >Possible answers </h2>
-              <Choicefield/>
-              <Choicefield/>
-              <Choicefield/>
+              <div className="choiceBox">
+                <h2 >Possible answers </h2>
+                <Choicefield/>
+                <Choicefield/>
+                <Choicefield/>
+              </div>
               <Add_answer/>
               <Submit/>
           
