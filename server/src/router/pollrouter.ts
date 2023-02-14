@@ -13,6 +13,7 @@ pollRouter.route("/")
         try {
             if (config.FAKE_DB) {
                 res.status(200).send({question: "Apples?", choices: ["Yes", "No", "Maybe"]})
+                console.log("get")
                 return;
             }
 

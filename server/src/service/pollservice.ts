@@ -36,14 +36,14 @@ export class PollService implements IPollService {
     }
     
     async createPollFromAny(question: string, choices: any[]): Promise<Poll> {
-        let parsed_choices = new Array<IChoice>();
-        const poll = new Poll({question: question});
-        // const pollId = poll.$get("id");
+        const poll = await new Poll({question: question}).save();
+
         choices.forEach(choice => {
             switch (typeof(choice)){
                 case "string": {
-                    parsed_choices.push(poll.$create("choice", {text: choice }));// .then((tc: TextChoice) => {tc.}));  // Create a new TextChoice, save it, and pass it to the list
-                    // parsed_choices.push(new TextChoice({text: choice, pollId: pollId}).save());// .then((tc: TextChoice) => {tc.}));  // Create a new TextChoice, save it, and pass it to the list
+                    let textChoice = new TextChoice({text: "A"});
+                    poll.$add("choice", textChoice); // TODO: Get the foreignKey "pollId" to be set correctly in textChoices. Can probably be a one-liner
+                    textChoice.save();
                     break;
                 }
                 default: {
@@ -51,7 +51,6 @@ export class PollService implements IPollService {
                 }
             }
         });
-        poll.save();
         return poll;
     }
 }

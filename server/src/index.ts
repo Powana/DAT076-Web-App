@@ -21,30 +21,30 @@ const DB_PASS = config.DB_PASS;
 */
 
 if (!config.FAKE_DB) {
-const sequelize = new Sequelize(
-    {
-        host: DB_HOST,
-        database: DB_NAME,
-        username: DB_USER,
-        password: DB_PASS,
-        dialect: 'mysql',
-    
-        models: [Poll, TextChoice]  // Relative path to our models
-    }
-    );
-    (async () => {
-        sequelize.authenticate().then(() => {
-            console.log('DB Connection has been established successfully.');
-        }).catch((error: any) => {
-            throw Error('Unable to connect to the database: ' + error);
-        });
-        // force: true will wipe any existing tables, useful for dev.
-        await sequelize.sync({ force: true }).catch((error: any) => {throw Error('Unable to sync to database: ' + error);});
-    
-        app.listen(PORT, () => {
-            console.log(`listening on port ${PORT}`);
-        });
-    })();
+    const sequelize = new Sequelize(
+        {
+            host: DB_HOST,
+            database: DB_NAME,
+            username: DB_USER,
+            password: DB_PASS,
+            dialect: 'postgres',
+        
+            models: [Poll, TextChoice]  // Relative path to our models
+        }
+        );
+        (async () => {
+            sequelize.authenticate().then(() => {
+                console.log('DB Connection has been established successfully.');
+            }).catch((error: any) => {
+                throw Error('Unable to connect to the database: ' + error);
+            });
+            // force: true will wipe any existing tables, useful for dev.
+            await sequelize.sync({ force: true }).catch((error: any) => {throw Error('Unable to sync to database: ' + error);});
+        
+            app.listen(PORT, () => {
+                console.log(`listening on port ${PORT}`);
+            });
+        })();
 }
 else {
     (async () => {

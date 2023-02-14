@@ -1,10 +1,10 @@
 export const config = {
     PORT: 8080,
     
-    FAKE_DB: true,
+    FAKE_DB: false,
 
-    DB_HOST: "locahost",
-    DB_NAME: "poll_app",
+    DB_HOST: "localhost",
+    DB_NAME: "postgres",
     DB_USER: "",
     DB_PASS: "",
 } as const;
