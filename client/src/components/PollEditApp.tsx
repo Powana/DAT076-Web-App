@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { Button, Form, FormControl, FormGroup, FormLabel } from 'react-bootstrap';
 import './PollEditApp.css';
 
 function PollEditApp() {
@@ -20,13 +21,27 @@ function PollEditApp() {
 
   return (
     <div className="PollEditApp">
-      {question}
-      Choices:
-      <ul>
-      {choices?.map(choice => {
-          return <li>{choice}</li>;
-        })}
-      </ul>
+      <Form className="mb-3">
+        <FormGroup>
+          <FormLabel>Question</FormLabel>
+          <FormControl type="text" value={question}/>
+        </FormGroup>
+        
+        <FormGroup>
+          <FormLabel>Choices:</FormLabel>
+          {choices?.map(choice => {
+              return (
+              <FormGroup>
+                <FormLabel>Choice</FormLabel>
+                <FormControl type="text" value={choice}/>
+              </FormGroup>
+              )
+            })}
+        </FormGroup>
+        <Button variant="primary" type="submit">
+          Save
+        </Button>
+      </Form>
     </div>
   );
 }
