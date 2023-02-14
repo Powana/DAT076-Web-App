@@ -3,15 +3,19 @@ import {SingleChoiceList} from './components/SingleChoiceList';
 import Button from 'react-bootstrap/Button'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
+import axios from 'axios';
 
-const choices = ["Choice 1", "Choice 2", "Choice 3" , "Choice 4"]
+const choices = ["A", "B", "C"]
 
 function App() {
 
-  const [choice, setChoice] = useState();
+  // Used to fetch choice state from child
+  const [choice, setChoice] = useState("");
 
   function submitVote(): void {
-    alert(choice)
+    let c = choices[parseInt(choice)];
+    alert(c)
+    axios.put("http://localhost:8080", {choice: c})
   }
 
   return (
