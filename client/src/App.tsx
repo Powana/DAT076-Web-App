@@ -1,9 +1,11 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {ChoiceList} from './components/ChoiceList';
+import {SingleChoiceList} from './components/SingleChoiceList';
 import Button from 'react-bootstrap/Button'
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+const choices = ["Choice 1", "Choice 2", "Choice 3" , "Choice 4"]
 
 function App() {
 
@@ -14,7 +16,7 @@ function App() {
         </header>
       <div className='App-content'>
         <div className='App-choices'>
-          <ChoiceList></ChoiceList>
+          <SingleChoiceList choices={choices}></SingleChoiceList>
         </div>
         <br/>
         <div className='submitButton'>
