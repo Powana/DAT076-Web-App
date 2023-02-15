@@ -10,10 +10,12 @@ function Vote() {
     //TODO: add id to get request
     useEffect(() => {
         axios.get("http://localhost:8080/poll").then((response) => {
-            setChoices(choicesToList(response.data.choices))
+            setChoices(choicesToList(response.data.choices));
+            setQuestion(response.data.question)
         });
     }, []);
 
+    const [question, setQuestion] = useState("")
     const [choices, setChoices] = useState(new Array<String>);
     const [choice, setChoice] = useState("");
 
@@ -36,8 +38,8 @@ function Vote() {
     //      If it is a single choice poll, render a SingleChoiceList component
     return (
       <div className="Vote">
-        <h2>Vote</h2>
         <div className='App-content'>
+        <h3>{question}</h3>
         <div className='App-choices'>
           <SingleChoiceList choices={choices} setChoice={setChoice}></SingleChoiceList>
         </div>
