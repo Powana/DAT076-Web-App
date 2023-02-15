@@ -1,38 +1,29 @@
 import './App.css';
-import {SingleChoiceList} from './components/SingleChoiceList';
-import Button from 'react-bootstrap/Button'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useState } from 'react';
-import axios from 'axios';
-
-const choices = ["A", "B", "C"]
+import {BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from './pages/Home';
+import Create from './pages/Create';
+import Edit from './pages/Edit';
+import Result from './pages/Result';
+import Vote from './pages/Vote';
 
 function App() {
-
-  // Used to fetch choice state from child
-  const [choice, setChoice] = useState("");
-
-  function submitVote(): void {
-    let c = choices[parseInt(choice)];
-    alert(c)
-    axios.put("http://localhost:8080/poll", {'choice': c}).catch(
-      
-    )
-  }
 
   return (
     <div className="App">
         <header className='App-header'>
           <h1>Pollstar</h1>
         </header>
-      <div className='App-content'>
-        <div className='App-choices'>
-          <SingleChoiceList choices={choices} setChoice={setChoice}></SingleChoiceList>
-        </div>
-        <br/>
-        <div className='submitButton'>
-        <Button onClick={submitVote}>Submit choice</Button>
-        </div>
+      <div className='content'>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Home/>}/>
+          <Route path='/create/' element={<Create/>}/>
+          <Route path='/vote/:id' element={<Vote/>}/>
+          <Route path='/result/:id' element={<Result/>}/>
+          <Route path='/edit/:id' element={<Edit/>}/>
+        </Routes>
+      </BrowserRouter>
       </div>
     </div>
   );
