@@ -15,7 +15,9 @@ function App() {
   function submitVote(): void {
     let c = choices[parseInt(choice)];
     alert(c)
-    axios.put("http://localhost:8080", {choice: c})
+    axios.put("http://localhost:8080/poll", {'choice': c}).catch(
+      
+    )
   }
 
   return (
