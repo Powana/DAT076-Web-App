@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import Create_page from './pollcomponents'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -21,31 +21,32 @@ function BasicExample() {
 }
 
 
-interface IChoice{
+interface IChoice {
   id: number;
   choicetext: string;
 }
 
-interface Poll{
-  id : number;
-  question : string;
-  choices :  Map<IChoice, number>;
+interface Poll {
+  id: number;
+  question: string;
+  choices: Map<IChoice, number>;
 }
 
 function Questionfield() {
   return (
     <div className="Questionbox">
-     <h2> Create a question </h2>
+      <h2> Create a question </h2>
       <form>
         <label>Enter question</label>
         <input type="text" placeholder="Question" name="ques"></input>
       </form>
-  </div>
+    </div>
   );
 }
 
 interface ChoiceItemProps {
-  choicetext:string;
+  key: number;
+  choicetext: string;
 }
 
 
@@ -69,7 +70,7 @@ function ChoiceItem({choicetext}:ChoiceItemProps) {
 };
 */
 
-function ChoiceItem({choicetext}:ChoiceItemProps) {
+function ChoiceItem({ choicetext }: ChoiceItemProps) {
   return (
     <div className="Choicebox">
       <form>
@@ -80,43 +81,41 @@ function ChoiceItem({choicetext}:ChoiceItemProps) {
   );
 };
 
-
+/*
 function Add_answer() {
   return (
     <div className="Button">
-      <Button variant="primary">add Answer</Button>{''}
+      <Button variant="primary" onClick= {moreChoice}>add Answer</Button>{''}
     </div>
   );
 };
+*/
 
 
-  function Submit() {
-    return (
-      <div className="Button">
-        <Button variant="primary" onClick={()=> BasicExample()}>Submit</Button>{' '}
+function Submit() {
+  return (
+    <div className="Button">
+      <Button variant="primary" onClick={() => BasicExample()}>Submit</Button>{' '}
     </div>
-    );
-  }
- 
+  );
+}
+
 function App() {
   const [iChoices, setIChoicees] = useState<IChoice[]>([])
-  const fieldArray = Array(3).fill(<Choicefield/>)
-
-  function moreChoice (){
-  fieldArray.push(Choicefield)
+  const [numChoices, setNumChoices] = useState<number>(3);
+  
+  function handlePlus() {
+    setNumChoices(numChoices => numChoices + 1);
   };
 
-/*
-  useEffect(() => {
-    async function uppdatePoll() {
-      const response = await axios.post<Poll[]>("http://localhost:8080/poll");
-      setPoll(response.data);
-    }
-    uppdatePoll();
-  }, [])
+  function Plus_answer() {
+    return (
+      <span className="Button">
+        <Button onClick={handlePlus}>+</Button>{''}
+      </span>
+    );
+  };
 
-  BasicExample();
-  */
 
   return (
     <div className="PollStar">
@@ -133,9 +132,14 @@ function App() {
               <Questionfield />
               <div className="choiceBox">
                 <h2 >Possible answers </h2>
-                {fieldArray}
+                <div>
+                  {Array.from(Array(numChoices).keys())
+                    .map((n: number) => {
+                      return <Choicefield key={n} />
+                    })}
+                </div>
               </div>
-              <Add_answer />
+              <Plus_answer />
               <Submit />
             </div>
           </div>
