@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 //import logo from './logo.png';
 import './App.css';
-import { Button,Form} from 'react-bootstrap';
+import { Button,Form,FormCheck,FormControl,FormGroup,FormLabel} from 'react-bootstrap';
 import axios from 'axios';
 import CFormCheck from '@coreui/react'
 
@@ -11,33 +11,36 @@ import Relleno from './components/answer';
 // <img src={logo} className="App-logo" alt="logo" />
 
 export interface Poll{
-  question: string;
+  question : string;
   choices:Array<string>;
+  id:number;
+  comments:string[];
 }
+
+
 
 function App() {
 
   const [poll, setpoll] = useState<Poll>();
-  const [newQuestion, setNewQuestion] = useState<String>("Question");
-  const [choice1, setchoice1] = useState<String>("Answer1");
-  const [choice2, setchoice2] = useState<String>("Answer2");
-  const [choice3, setchoice3] = useState<String>("Answer3");
+  const [newQuestion, setNewQuestion] = useState<string>("Question");
+  const [choices, setchoices] = useState<Array<string>>();
+  const [choice1, setchoice1] = useState<string>("Answer1");
+  const [choice2, setchoice2] = useState<string>("Answer2");
+  const [choice3, setchoice3] = useState<string>("Answer3");
+  const [answers, setanswers] = useState<Array<string>>();
   const [commentt, setcomment] = useState<String>("hola");
-  const [newanswer, setnewanswer] = useState<String>("NUEVO");
-
+  const [newanswer, setnewanswer] = useState<string>("NUEVO");
+  const lista:Array<string>=[]
 
   async function updatepoll(){
-    const response= await axios.get<Poll>("http://localhost:8080/poll");
+    const response=await axios.get("http://localhost:8080/poll");
     setpoll(response.data);
-  }
+    }
 
       useEffect(() => {
       updatepoll();
     }, []);
 
-    const y=JSON.stringify(choice1)
-    const z=JSON.stringify(choice2)
-    const w=JSON.stringify(choice3)
     const p=JSON.stringify(poll)
 
 
@@ -79,33 +82,37 @@ function App() {
     <Form.Label>Enter your third choice:</Form.Label>
     <Form.Control type="text"  onChange={e => {
           setchoice3(e.target.value);
+          
         }}/>
   </Form.Group>
-
-  <Button type="submit"  onClick={()=>{ axios.post("http://localhost:8080/poll/firstcreate",
-        { question: newQuestion,choices:[choice1,choice2,choice3] }
+      
+  <Button type="submit"  onClick={()=>{setchoices([choice1,choice2,choice3]); axios.post("http://localhost:8080/poll/firstcreate",
+        { question: newQuestion,choices:choices }
       )}}>
     Click here to submit poll
   </Button>
 </Form>
 <br></br>
 
-<Form>
-<Form.Label>{newQuestion}</Form.Label>
-      {[y,z,w].map((type) => (
-        <div key={`-${type}`} className="mb-3">
-          <Form.Check 
-            type='checkbox'
-            id={`-${type}`}
-            label={` ${type}`}
-          />   
-        </div>
-      ))}
-    </Form>
-
+<FormGroup>
+<Form.Label >{newQuestion}</Form.Label>
+      
+  {choices?.map(choice => {
+              return (
+              <FormGroup>
+                <FormLabel>{choice}</FormLabel>
+                <FormCheck type="checkbox" checked={true} onChange={e=>{
+                    lista.push(choice)
+                }}/>
+                </FormGroup>
+      )})}
+    </FormGroup>
+    <Button type="submit"  onClick={()=>{setanswers(lista) ;axios.put("http://localhost:8080/poll/multipleanswer",
+        { id: 0,choices:answers }
+      )}}>
+    Click here to submit answer to the poll
+  </Button>
   
-
-
 
   <Form>
   <Form.Group>
@@ -145,4 +152,7 @@ function App() {
 
 }
 
+
 export default App;
+
+
