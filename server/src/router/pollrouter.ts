@@ -12,12 +12,15 @@ let contador=0;
 pollRouter
     .get('/',(req : Request, res : Response) => {
         try {
-            if (PollService.thePoll == null) {  // At the moment, only allow for one poll for simple testing purposes.
+            if (pollService.getPoll(0)==null) {  // At the moment, only allow for one poll for simple testing purposes.
                 res.status(200).send("No poll has been created");
 
             }
             else {
-                res.status(200).send(PollService.thePoll)
+                let newPoll = pollService.getPoll(0); //// At the moment, only allow for one poll for simple testing purposes.
+                res.status(201).send(newPoll.toJSON());
+
+
             }
         } catch (e: any) {
             res.status(500).send(e.message);
@@ -39,8 +42,7 @@ pollRouter
             }
 
             let newPoll = pollService.createPollFromAny(question, raw_choices);
-
-            PollService.thePoll = newPoll; // For demonstration purposes TODO: Remove
+            console.log(newPoll.toJSON());
             contador=contador+1;
             res.status(201).send(newPoll.toJSON());
 
@@ -63,7 +65,6 @@ pollRouter
             else{
                 let newPoll = pollService.add_answer(id,answer);
             
-                PollService.thePoll = newPoll; 
                 
                 res.status(201).send(newPoll.toJSON());
             }
@@ -85,7 +86,7 @@ pollRouter
                 res.status(400).send("Invalid payload")
             }
             
-            res.status(200).send(pollService.chosepoll(id).incrementCount(choice));
+            res.status(200).send(pollService.getPoll(id).incrementCount(choice));
         } catch (e: any) {
             res.status(500).send(e.message);
         }
@@ -119,7 +120,7 @@ pollRouter
 
             }
             else {
-                res.status(200).send(pollService.chosepoll(id))
+                res.status(200).send(pollService.getPoll(id))
             }
         } catch (e: any) {
             res.status(500).send(e.message);
@@ -159,13 +160,14 @@ pollRouter
 
             let newPoll = pollService.createPoll(contador,question, raw_choices);
             contador=contador+1;
+            console.log(newPoll.toJSON());
+
             res.status(201).send(newPoll.toJSON());
 
         } catch (e: any) {
             res.status(500).send(e.message);
         }
     })
-
 
    
     //answer poll with multiple answer
@@ -178,7 +180,7 @@ pollRouter
                 res.status(400).send("Invalid payload")
             }
             
-            res.status(200).send(pollService.chosepoll(id).incrementCounts(choices));
+            res.status(200).send(pollService.getPoll(id).incrementCounts(choices));
 
         } catch (e: any) {
             res.status(500).send(e.message);
