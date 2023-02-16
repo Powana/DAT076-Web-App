@@ -31,7 +31,7 @@ pollRouter
     .post('/firstcreate',(req : Request<{}, {}, {question: string, choices: Array<any>}>, res) => {
         try {
             const question: string = req.body["question"]
-            const raw_choices: Array<string> = req.body["choices"] 
+            const raw_choices: Array<any> = req.body["choices"] 
             
             if (question == null || raw_choices == null) {
                 res.status(400).send("Invalid payload")
@@ -40,6 +40,21 @@ pollRouter
             if (raw_choices.length != 3) {  // For demonstration purposes TODO: Remove
                 res.status(400).send("Polls must have 3 choices")
             }
+
+
+            let parsed_choices = new Array<string>;
+
+            raw_choices.forEach(choice => {
+            switch (typeof(choice)){
+                case "string": {
+                    parsed_choices.push(choice);
+                    break;
+                }
+                default: {
+                    res.status(400).send("Polls must be strings")
+                }   
+            }
+        });
 
             let newPoll = pollService.createPollFromAny(question, raw_choices);
             console.log(newPoll.toJSON());
