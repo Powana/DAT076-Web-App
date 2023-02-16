@@ -6,9 +6,7 @@ import { Poll } from "../model/poll";
 // Would make more sense to create a 'Poll' interface as we could have different implementations of Polls
 interface IPollService {
     // Returns the poll
-    getPoll() : Poll;
-
-    //getPolls() : Array<Poll>;
+    getPoll(id:number) : Poll;
 
     // Creates a poll
     createPoll(id:number,question : string, choices : Array<string>) : Poll;
@@ -19,44 +17,39 @@ interface IPollService {
     //extendable answer
     add_answer(id:number,answer:string):Poll;
 
-    //select poll by id
-    chosepoll(id:number):Poll;
+    
 }
 
 export class PollService implements IPollService {
-    static polls: null;
-
-    static thePoll : Poll;
-
     polls : Array<Poll> = [];
+    vacio:Poll;
 
-    getPoll(): Poll {
-        return PollService.thePoll;  // For demonstration purposes, limit to one poll at a time
+    getPoll(id : number): Poll {
+        for (let i=0; i<this.polls.length;i++ ){
+            if (this.polls[i].id=id){
+                return this.polls[i]
+            }
+        }
+        return this.polls[0]; 
     }
     
-    chosepoll(id:number):Poll{
-        return this.polls[id]
-    }
-
-
     addcomment(id:number,comment: string): boolean {
-        let actualPoll:Poll;
-        actualPoll=this.chosepoll(id);
-        actualPoll.comments.push(comment);
+        // TODO What if there is no poll with number id?
+        this.getPoll(id).comments.push(comment);
         return true;
     }
 
     //add 1 answer to the structure
     add_answer(id:number,answer:string):Poll{
-        let poll:Poll;
-        poll=this.chosepoll(id);
+        // TODO What if there is no poll with number id?
+        const poll=this.getPoll(id)
         poll.choices.push(new TextChoice(answer));
         return poll;
     }
 
     createPoll(id:number,question: string, choices: Array<string>): Poll {
         const poll = new Poll(id,question, choices);
-        this.polls.push(poll)
+        this.polls.push(poll);
         return poll;
     }
     
@@ -71,7 +64,7 @@ export class PollService implements IPollService {
                 }
                 default: {
                     throw Error("Invalid choice type")
-                }
+                }   
             }
         });
 
