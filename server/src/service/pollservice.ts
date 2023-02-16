@@ -53,22 +53,7 @@ export class PollService implements IPollService {
         return poll;
     }
     
-    createPollFromAny(question: string, choices: any[]): Poll {
-        let parsed_choices = new Array<IChoice>;
-
-        choices.forEach(choice => {
-            switch (typeof(choice)){
-                case "string": {
-                    parsed_choices.push(new TextChoice(choice));
-                    break;
-                }
-                default: {
-                    throw Error("Invalid choice type")
-                }   
-            }
-        });
-
-
+    createPollFromAny(question: string, choices: string[]): Poll {
         const poll = new Poll(0,question, choices);
         this.polls.push(poll)
         return poll;
