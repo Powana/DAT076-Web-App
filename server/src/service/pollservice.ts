@@ -53,7 +53,7 @@ export class PollService implements IPollService {
         return poll;
     }
     
-    createPollFromAny(question: string, choices: string[]): Poll {
+    createPollFromAny(question: string, choices: Array<string>): Poll {
         const poll = new Poll(0,question, choices);
         this.polls.push(poll)
         return poll;
