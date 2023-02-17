@@ -160,7 +160,7 @@ pollRouter
     })
 
     //crear others poll
-    .post('/create',(req : Request<{}, {}, {question: string, choices: Array<any>}>, res) => {
+    .post('/create',(req : Request<{}, {}, {question: string, choices: Array<string>}>, res) => {
         try {
             const question: string = req.body["question"]
             const raw_choices: Array<string> = req.body["choices"] 
