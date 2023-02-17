@@ -6,8 +6,8 @@ import axios from 'axios';
 import CFormCheck from '@coreui/react'
 
 //Components
-import Relleno from './components/answer';
-//import Bcreate from './components/create';
+import Comment from './components/comment';
+import Answer from './components/answer';
 // <img src={logo} className="App-logo" alt="logo" />
 
 export interface Poll{
@@ -28,8 +28,7 @@ function App() {
   const [choice2, setchoice2] = useState<string>("Answer2");
   const [choice3, setchoice3] = useState<string>("Answer3");
   const [answers, setanswers] = useState<Array<string>>();
-  const [commentt, setcomment] = useState<String>("hola");
-  const [newanswer, setnewanswer] = useState<string>("NUEVO");
+
   const lista:Array<string>=[]
 
   async function updatepoll(){
@@ -86,7 +85,7 @@ function App() {
         }}/>
   </Form.Group>
       
-  <Button type="submit"  onClick={()=>{setchoices([choice1,choice2,choice3]); axios.post("http://localhost:8080/poll/firstcreate",
+  <Button type="submit"  onClick={async ()=>{await setchoices([choice1,choice2,choice3]); axios.post("http://localhost:8080/poll/create",
         { question: newQuestion,choices:choices }
       )}}>
     Click here to submit poll
@@ -101,52 +100,23 @@ function App() {
               return (
               <FormGroup>
                 <FormLabel>{choice}</FormLabel>
-                <FormCheck type="checkbox" checked={true} onChange={e=>{
+                <FormCheck type="checkbox" checked={false} onChange={e=>{
                     lista.push(choice)
                 }}/>
                 </FormGroup>
       )})}
     </FormGroup>
-    <Button type="submit"  onClick={()=>{setanswers(lista) ;axios.put("http://localhost:8080/poll/multipleanswer",
+    <Button type="submit"  onClick={async()=>{setanswers(lista) ; await axios.put("http://localhost:8080/poll/multipleanswer",
         { id: 0,choices:answers }
       )}}>
     Click here to submit answer to the poll
   </Button>
   
 
-  <Form>
-  <Form.Group>
-    <Form.Label>Enter your comment:</Form.Label>
-    <Form.Control type="text"  onChange={e => {
-          setcomment(e.target.value);
-        }}/>
-  </Form.Group>
- </Form> 
+  <Comment ></Comment>
 
-<Button type="submit"  onClick={async ()=>{ 
-  await axios.put("http://localhost:8080/poll/comment",
-        { id: 0, comment:commentt})}}>
-    Click here to comment poll
-  </Button>
-
-
-
-  <Form>
-  <Form.Group>
-    <Form.Label>Enter your new answer:</Form.Label>
-    <Form.Control type="text"  onChange={e => {
-          setnewanswer(e.target.value);
-        }}/>
-  </Form.Group>
- </Form> 
-
-<Button type="submit"  onClick={async ()=>{ 
-  await axios.post("http://localhost:8080/poll/addanswer",
-        { id: 0, choice:newanswer})}}>
-    Click here to add new answer to the poll
-  </Button>
-
-
+  <Answer></Answer>
+  
   </div>
   );
 
