@@ -41,7 +41,7 @@ export class PollService implements IPollService {
         choices.forEach(choice => {
             switch (typeof(choice)){
                 case "string": {
-                    new TextChoice({text: "A", pollId: poll.id}).save();
+                    new TextChoice({text: choice, pollId: poll.id}).save();
                     break;
                 }
                 default: {
