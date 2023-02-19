@@ -41,9 +41,7 @@ export class PollService implements IPollService {
         choices.forEach(choice => {
             switch (typeof(choice)){
                 case "string": {
-                    let textChoice = new TextChoice({text: "A"});
-                    poll.$add("choice", textChoice); // TODO: Get the foreignKey "pollId" to be set correctly in textChoices. Can probably be a one-liner
-                    textChoice.save();
+                    new TextChoice({text: "A", pollId: poll.id}).save();
                     break;
                 }
                 default: {

@@ -4,7 +4,7 @@ export const config = {
     FAKE_DB: false,
 
     DB_HOST: "localhost",
-    DB_NAME: "postgres",
-    DB_USER: "",
-    DB_PASS: "",
+    DB_NAME: "pollappdb",
+    DB_USER: "postgres",
+    DB_PASS: "pass",
 } as const;
