@@ -1,21 +1,36 @@
 import express, { Request, Response } from "express";
 import { PollService } from "../service/pollservice";
-import { Poll } from "../model/poll";
-import { IChoice, TextChoice } from "../model/choice";
+import { Poll } from "../models/poll.model";
+import { IChoice, TextChoice } from "../models/choice.model";
+import { config } from "../config";
 
 export const pollRouter = express.Router();
 const pollService = new PollService();
 
 pollRouter.route("/")
-    // GET /poll/ Main page
+    // GET /poll/ Main page TODO: Move logic out of router
     .get(async (req : Request, res : Response) => {
         try {
-            if ((await pollService.getPoll()) == null) {  // At the moment, only allow for one poll for simple testing purposes.
-                res.status(200).send("No poll has been created");
+            if (config.FAKE_DB) {
+                res.status(200).send({question: "Apples?", choices: ["Yes", "No", "Maybe"]})
+                console.log("get")
+                return;
             }
-            else {
-                res.status(200).send(await pollService.getPoll())
-            }
+
+            await pollService.getPoll().then(
+                (foundPoll) => {  // At the moment, only allow for one poll for simple testing purposes.
+                    // Debug for testing purposes
+                    foundPoll.$get("choices").then((foundPollChoices) => {
+                        for (let c of foundPollChoices) {
+                            console.log(c);
+                        }
+                    })
+                    console.log("CCC");
+                    res.status(200).send(foundPoll)// This is an example payload, containing only simple text, TODO: Find a better way to return this
+                }, () => {
+                    res.status(200).send("No poll has been created");
+                })
+            
         } catch (e: any) {
             res.status(500).send(e.message);
         }
@@ -29,20 +44,22 @@ pollRouter.route("/")
             if (question == null || raw_choices == null) {
                 res.status(400).send("Invalid payload")
             }
-            
-            if (raw_choices.length != 3) {  // For demonstration purposes TODO: Remove
+            else if (raw_choices.length != 3) {  // For demonstration purposes TODO: Remove
                 res.status(400).send("Polls must have 3 choices")
             }
-
-            let newPoll = await pollService.createPollFromAny(question, raw_choices);
-            
-            
-            res.status(201).send(newPoll.toJSON());
-
+            else {
+                await pollService.createPollFromAny(question, raw_choices).then(
+                    (newPoll) => {  // If a new poll was succesfully created:
+                        res.status(201).send(newPoll);
+                    }, (error) => { // If a new poll was not created:
+                        res.status(400).send("Poll was not created, error: " + error)
+                });
+            }
         } catch (e: any) {
             res.status(500).send(e.message);
         }
     })
+    // TODO: Will probably not work, can't pass IChoices via JSON right?
     .put(async (req: Request<{}, {}, {choice: IChoice}>, res) => {
         try {
             const choice: IChoice = req.body["choice"]
@@ -51,7 +68,7 @@ pollRouter.route("/")
                 res.status(400).send("Invalid payload")
             }
             
-            res.status(200).send(await pollService.incrementCount(choice));
+            // TODO res.status(200).send(await pollService.incrementCount(choice));
 
         } catch (e: any) {
             res.status(500).send(e.message);
