@@ -4,7 +4,7 @@ import './PollEditApp.css';
 
 function PollEditApp() {
   const [question, setQuestion] = useState<string>();
-  const [choices, setChoices] = useState<Array<string>>();
+  const [choices, setChoices] = useState<any[]>();
 
   React.useEffect(() => {
 

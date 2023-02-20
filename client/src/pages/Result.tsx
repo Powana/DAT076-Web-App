@@ -7,8 +7,8 @@ import ChoiceResult from "../components/ChoiceResult";
 function Result() {
 
 
-    const [question, setQuestion] = useState("")
-    const [choices, setChoices] = useState([]);
+    const [question, setQuestion] = useState<string>();
+    const [choices, setChoices] = useState<any[]>();
     const { id } = useParams();
     //TODO: add id to get request
     useEffect(() => {
@@ -20,10 +20,10 @@ function Result() {
     }, []);
 
     //TODO: Calculate and sort by top choice(s)
-    const choiceResults = Object.entries(choices).map(
-      ([key, value]) => {
+    const choiceResults = choices?.map(
+      choice => {
         return (
-          <ChoiceResult choice={key} votes={value}></ChoiceResult>
+          <ChoiceResult choice={choice.text} votes={choice.votes}></ChoiceResult>
         )
       }
     )
