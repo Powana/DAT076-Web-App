@@ -18,7 +18,7 @@ interface IPollService {
 export class PollService implements IPollService {
 
     async getPoll(): Promise<Poll> {
-        let foundPoll = await Poll.findOne();  // For demonstration purposes, limit to one poll at a time, simply select the first poll found
+        let foundPoll = await Poll.findOne({include: [TextChoice]});  // For demonstration purposes, limit to one poll at a time, simply select the first poll found
         if (foundPoll === null) {
             return Promise.reject("No poll found.")
         }
