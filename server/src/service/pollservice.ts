@@ -23,7 +23,8 @@ export class PollService implements IPollService {
             return Promise.reject(false)
         }
 
-        console.log("Incrementing count in poll model: " + choice)
+        // Searches the array of choices for the correct id
+        // Then incrementing value in database
         try {
             const ch = await foundPoll.choices.find(x => x.id === choice)
             ch?.increment({votes: +1})
