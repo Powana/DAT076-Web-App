@@ -22,7 +22,16 @@ export class PollService implements IPollService {
         if (foundPoll === null) {
             return Promise.reject(false)
         }
-        foundPoll.incrementCount(choice)
+
+        console.log("Incrementing count in poll model: " + choice)
+        try {
+            const ch = await foundPoll.choices.find(x => x.id === choice)
+            ch?.increment({votes: +1})
+        } catch (error) {
+            return false;
+        }
+        
+        
         return true;
     }
 
