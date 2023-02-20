@@ -24,7 +24,7 @@ function Edit() {
       <Form className="mb-3">
         <FormGroup>
           <FormLabel>Question</FormLabel>
-          <FormControl type="text" value={question}/>
+          <FormControl type="text" value={question} />
         </FormGroup>
         
         <FormGroup>
@@ -33,7 +33,8 @@ function Edit() {
               return (
               <FormGroup>
                 <FormLabel>Choice</FormLabel>
-                <FormControl type="text" value={choice}/>
+                {/* React requires on onChange function if value is set or it will be uneditable, use placeholder for now */}
+                <FormControl type="text" placeholder={choice.text} /> 
               </FormGroup>
               )
             })}
