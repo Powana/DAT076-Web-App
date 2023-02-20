@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './Create.css';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
@@ -8,27 +8,39 @@ import { Form, FormGroup, FormLabel, FormControl } from 'react-bootstrap';
 
 function Create() {
   const [numChoices, setNumChoices] = useState<number>(3);
+  const questionInput = useRef<HTMLInputElement>(null);
+  const choicesInput = Array(numChoices).fill(useRef<HTMLInputElement>(null));
   
   function handlePlus() {
     setNumChoices(numChoices => numChoices + 1);
   };
 
-  function handleSubmit(e: any) {
-    e.preventDefault();    
-    alert('You clicked submit.');
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     /* Create a json object here:
       {question:<q>, choices: [<cs>]}
-      and POST it, instead of using the default submit behaviour */
+      and POST it, instead of using the default submit behaviour 
+    */
+    e.preventDefault();
+    
+    if (questionInput?.current?.value == "" || choicesInput.some((choiceRef) => {return choiceRef?.current?.value == ""})) {
+      alert("All fields are not filled in.");
+      return;
+    }
+
+    let newPoll = {
+      question: questionInput?.current?.value||"Nothing",
+      choices: choicesInput.reverse().map((choice) => {return choice?.current?.value})  //Reverse as elements are listed from bottom up, then get the value
+    }
+    alert(newPoll.question)
+    alert(newPoll.choices[0])
+    // Send the JSON object to the backend via POST
+    fetch("/poll", {
+      method: "POST",
+      mode: "cors",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newPoll)
+    });
   }
-
-  function Plus_answer() {
-    return (
-      <span className="Button">
-        <Button onClick={handlePlus}>+</Button>{''}
-      </span>
-    );
-  };
-
   
   return (
     <div className="Create">
@@ -36,7 +48,7 @@ function Create() {
       <Form className="mb-3" onSubmit={handleSubmit}>
         <FormGroup>
           <FormLabel>Question</FormLabel>
-          <FormControl type="text" />
+          <FormControl type="text" ref={questionInput} required />
         </FormGroup>
         
         <FormGroup>
@@ -45,66 +57,18 @@ function Create() {
               return (
               <FormGroup>
                 <FormLabel>Choice</FormLabel>
-                <FormControl name={i.toString()} type="text"/> 
+                <FormControl name={i.toString()} type="text" ref={choicesInput[i]} required /> 
               </FormGroup>
               )
             })}
         </FormGroup>
-        <Plus_answer />
+        <Button onClick={handlePlus}>+</Button>
         <Button variant="primary" type="submit">
           Submit
         </Button>
       </Form>
     </div>
-  )
-  /*
-
-function Questionfield() {
-  return (
-    <div className="Questionbox">
-      <h2> Create a question </h2>
-        <label>Enter question</label>
-        <input type="text" placeholder="Question" name="ques"></input>
-    </div>
-  );
-}
-
-function Choicefield(props: {idx: number}) {
-  return (
-    <div className="Choicebox">
-      <form>
-        <label>Enter answer</label>
-        <input type="text" placeholder="Option" name={props.idx.toString()}></input>
-      </form>
-    </div>
-  );
-};
-
-
-  
-  return (
-    <div className="Create">
-      <Form className="mb-3">
-        <FormGroup>
-          <FormLabel>Question</FormLabel>
-          <FormControl type="text" value={question} />
-        </FormGroup>
-            <div className="NewPoll">
-              <Questionfield />
-              <div className="choiceBox">
-                <h2 >Possible answers </h2>
-                <div>
-                  {[...Array(numChoices)].map((_, i) =>
-                    <Choicefield idx={i} />
-                  )}
-                </div>
-              </div>
-              <Plus_answer />
-              <Button variant="primary" type="submit">Submit</Button>
-            </div>
-    </div>
-  ) */
- 
+  ) 
 };
 
 export default Create;

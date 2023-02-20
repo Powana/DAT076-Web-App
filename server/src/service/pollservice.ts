@@ -17,25 +17,7 @@ interface IPollService {
 
 export class PollService implements IPollService {
 
-    async incrementCount(choice: number): Promise<boolean> {
-        let foundPoll = await Poll.findOne({include: [TextChoice]});  // For demonstration purposes, limit to one poll at a time, simply select the first poll found
-        if (foundPoll === null) {
-            return Promise.reject(false)
-        }
-
-        // Searches the array of choices for the correct id
-        // Then incrementing value in database
-        try {
-            const ch = await foundPoll.choices.find(x => x.id === choice)
-            ch?.increment({votes: +1})
-        } catch (error) {
-            return false;
-        }
-        
-        
-        return true;
-    }
-
+    
     async getPoll(): Promise<Poll> {
         let foundPoll = await Poll.findOne({include: [TextChoice]});  // For demonstration purposes, limit to one poll at a time, simply select the first poll found
         if (foundPoll === null) {
@@ -43,11 +25,8 @@ export class PollService implements IPollService {
         }
         return foundPoll;
     }
-    // TODO
-    //async incrementCount(choice: TextChoice): Promise<boolean> {
-    //    
-    //}
-
+    
+    
     async createPoll(question: string, choices: Array<IChoice>): Promise<Poll> {
         const poll = new Poll({question, choices});
         poll.save();
@@ -56,7 +35,7 @@ export class PollService implements IPollService {
     
     async createPollFromAny(question: string, choices: any[]): Promise<Poll> {
         const poll = await new Poll({question: question}).save();
-
+        
         choices.forEach(choice => {
             switch (typeof(choice)){
                 case "string": {
@@ -69,5 +48,25 @@ export class PollService implements IPollService {
             }
         });
         return poll;
+    }
+    
+    async incrementCount(choiceId: number): Promise<boolean> {
+        let foundPoll = await Poll.findOne({include: [TextChoice]});
+        if (foundPoll === null) {
+            return Promise.reject(false)
+        }
+    
+        // Searches the array of choices for the correct id
+        // Then incrementing value in database
+        try {
+            // const ch = await foundPoll.choices.find(x => x.id === choiceId)
+            const ch = await TextChoice.findOne({where: {id: choiceId}})
+            ch?.increment({votes: +1})
+        } catch (error) {
+            return false;
+        }
+        
+        
+        return true;
     }
 }

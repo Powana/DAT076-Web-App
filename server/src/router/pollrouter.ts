@@ -19,14 +19,7 @@ pollRouter.route("/")
 
             await pollService.getPoll().then(
                 (foundPoll) => {  // At the moment, only allow for one poll for simple testing purposes.
-                    // Debug for testing purposes
-                    foundPoll.$get("choices").then((foundPollChoices) => {
-                        for (let c of foundPollChoices) {
-                            console.log(c);
-                        }
-                    })
-                    console.log("CCC");
-                    res.status(200).send(foundPoll)// This is an example payload, containing only simple text, TODO: Find a better way to return this
+                    res.status(200).send(foundPoll)
                 }, () => {
                     res.status(200).send("No poll has been created");
                 })
@@ -36,11 +29,11 @@ pollRouter.route("/")
         }
     })
     // POST /poll/ Create a new poll, Payload format {"question": <question: str>, "choices": [<array of choice str>]}
-    .post(async (req : Request<{}, {}, {question: string, choices: Array<any>}>, res) => {
+    .post(async (req : Request<{}, {}, {question: string, choices: Array<string>}>, res) => {
         try {
-            const question: string = req.body["question"]
-            const raw_choices: Array<string> = req.body["choices"] 
-            
+            const question: string = req.body["question"];
+            const raw_choices: Array<string> = req.body["choices"];
+            console.log(question);
             if (question == null || raw_choices == null) {
                 res.status(400).send("Invalid payload")
             }
@@ -59,7 +52,7 @@ pollRouter.route("/")
             res.status(500).send(e.message);
         }
     })
-    // TODO: Will probably not work, can't pass IChoices via JSON right?
+    
     .put(async (req: Request<{}, {}, {choice: number}>, res) => {
         try {
             const choice: number = req.body["choice"]
