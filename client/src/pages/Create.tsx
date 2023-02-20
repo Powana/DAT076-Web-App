@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import './Create.css';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
@@ -8,29 +8,37 @@ import { Form, FormGroup, FormLabel, FormControl } from 'react-bootstrap';
 function Create() {
   const [numChoices, setNumChoices] = useState<number>(3);
   const navigate = useNavigate();
+
+  const questionInput = useRef<HTMLInputElement>(null);
+  const choicesInput = Array(numChoices).fill(useRef<HTMLInputElement>(null));
   
   function addChoice() {
     setNumChoices(numChoices => numChoices + 1);
   };
 
-  async function handleSubmit(e: any) {
-    e.preventDefault();    
-    
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     /* Create a json object here:
       {question:<q>, choices: [<cs>]}
-      and POST it, instead of using the default submit behaviour */
-    const data = new FormData(e.target),
-          dataObj = Object.fromEntries(data.entries())
-    const question = dataObj.question;
-    delete dataObj.question;
-    const choices = Object.values(dataObj);
-    const jsonPoll = {"question": question, "choices": choices}
+      and POST it, instead of using the default submit behaviour 
+    */
+    e.preventDefault();
     
-    // formatted data is now sent to backend
-    // use response to get id and redirect to correct poll
+    if (questionInput?.current?.value == "" || choicesInput.some((choiceRef) => {return choiceRef?.current?.value == ""})) {
+      alert("All fields are not filled in.");
+      return;
+    }
+
+    let newPoll = {
+      question: questionInput?.current?.value||"Nothing",
+      choices: choicesInput.reverse().map((choice) => {return choice?.current?.value})  //Reverse as elements are listed from bottom up, then get the value
+    }
+
+    console.log(newPoll.choices)
+    console.log(JSON.stringify(newPoll))
+    // Send the JSON object to the backend via POST
     try {
-      let res = await axios.post("http://localhost:8080/poll", jsonPoll)
-      navigate("/result/" + res.data.id);
+      let res = await axios.post("http://localhost:8080/poll", {"question": newPoll.question, "choices": newPoll.choices})
+      navigate("/vote/" + res.data.id);
     } catch(error) {
       console.log(error)
     }
@@ -43,7 +51,7 @@ function Create() {
       <Form className="mb-3" onSubmit={handleSubmit}>
         <FormGroup>
           <FormLabel>Question</FormLabel>
-          <FormControl name="question" type="text" />
+          <FormControl type="text" ref={questionInput} required />
         </FormGroup>
         
         <FormGroup>
@@ -52,7 +60,7 @@ function Create() {
               return (
               <FormGroup>
                 <FormLabel>Choice</FormLabel>
-                <FormControl name={i.toString()} type="text"/> 
+                <FormControl name={i.toString()} type="text" ref={choicesInput[i]} required /> 
               </FormGroup>
               )
             })}

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { SingleChoiceList } from "../components/SingleChoiceList";
 
 function Vote() {
@@ -11,18 +11,19 @@ function Vote() {
   const [question, setQuestion] = useState("")
   const [choices, setChoices] = useState([]);
   const [chosenId, setChosenId] = useState();
+  const navigate = useNavigate();
   //TODO: add id to get request
   useEffect(() => {
-      axios.get("http://localhost:8080/poll").then((response) => {
+      axios.get("http://localhost:8080/poll/" + id).then((response) => {
           setChoices(response.data.choices);
           setQuestion(response.data.question)
       });
   }, []);
   
-  function submitVote(): void {
-      // Vote using the chosen choice ID
-      alert(chosenId)
-      axios.put("http://localhost:8080/poll", {'choice': chosenId})
+  async function submitVote() {
+    // Vote using the chosen choice ID
+    await axios.put("http://localhost:8080/poll", {'pollID': id, 'choice': chosenId})
+    navigate("/result/" + id);
   }
   //TODO: Here we need conditional logic that uses "PollType"
   //      If it is a single choice poll, render a SingleChoiceList component
