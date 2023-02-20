@@ -60,15 +60,15 @@ pollRouter.route("/")
         }
     })
     // TODO: Will probably not work, can't pass IChoices via JSON right?
-    .put(async (req: Request<{}, {}, {choice: IChoice}>, res) => {
+    .put(async (req: Request<{}, {}, {choice: number}>, res) => {
         try {
-            const choice: IChoice = req.body["choice"]
+            const choice: number = req.body["choice"]
             
             if (choice == null) {
                 res.status(400).send("Invalid payload")
             }
             
-            // TODO res.status(200).send(await pollService.incrementCount(choice));
+            res.status(200).send(await pollService.incrementCount(choice));
 
         } catch (e: any) {
             res.status(500).send(e.message);

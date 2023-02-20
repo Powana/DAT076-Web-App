@@ -12,7 +12,12 @@ export class Poll extends Model {
   @HasMany(() => TextChoice)
   choices!: TextChoice[];
 
-  public incrementCount(choice : TextChoice) {
-    // TODO
+  public incrementCount(choice : number) {
+    console.log("Incrementing count in poll model: " + choice)
+    this.choices[choice - 1].increment(
+      {votes: +1},
+      {where: {id: choice}}
+    )
+   
   }
 }

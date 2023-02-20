@@ -12,10 +12,19 @@ interface IPollService {
     createPoll(question : string, choices : Array<IChoice>) : Promise<Poll>;
 
     // Increments a choice in the poll
-    // incrementCount(choice : number) : Promise<boolean>;
+    incrementCount(choice : number) : Promise<boolean>;
 }
 
 export class PollService implements IPollService {
+
+    async incrementCount(choice: number): Promise<boolean> {
+        let foundPoll = await Poll.findOne({include: [TextChoice]});  // For demonstration purposes, limit to one poll at a time, simply select the first poll found
+        if (foundPoll === null) {
+            return Promise.reject(false)
+        }
+        foundPoll.incrementCount(choice)
+        return true;
+    }
 
     async getPoll(): Promise<Poll> {
         let foundPoll = await Poll.findOne({include: [TextChoice]});  // For demonstration purposes, limit to one poll at a time, simply select the first poll found
