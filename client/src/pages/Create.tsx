@@ -4,28 +4,67 @@ import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 
 import Toast from 'react-bootstrap/Toast';
+import { Form, FormGroup, FormLabel, FormControl } from 'react-bootstrap';
 
-function BasicExample() {
+function Create() {
+  const [numChoices, setNumChoices] = useState<number>(3);
+  
+  function handlePlus() {
+    setNumChoices(numChoices => numChoices + 1);
+  };
+
+  function handleSubmit(e: any) {
+    e.preventDefault();    
+    alert('You clicked submit.');
+    /* Create a json object here:
+      {question:<q>, choices: [<cs>]}
+      and POST it, instead of using the default submit behaviour */
+  }
+
+  function Plus_answer() {
+    return (
+      <span className="Button">
+        <Button onClick={handlePlus}>+</Button>{''}
+      </span>
+    );
+  };
+
+  
   return (
-    <Toast>
-      <Toast.Header>
-        <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-        <strong className="me-auto">Bootstrap</strong>
-        <small>11 mins ago</small>
-      </Toast.Header>
-      <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
-    </Toast>
-  );
-}
+    <div className="Create">
+    <h2> Create a poll </h2>
+      <Form className="mb-3" onSubmit={handleSubmit}>
+        <FormGroup>
+          <FormLabel>Question</FormLabel>
+          <FormControl type="text" />
+        </FormGroup>
+        
+        <FormGroup>
+          <FormLabel>Choices:</FormLabel>
+          {[...Array(numChoices)].map((_, i) => {
+              return (
+              <FormGroup>
+                <FormLabel>Choice</FormLabel>
+                <FormControl name={i.toString()} type="text"/> 
+              </FormGroup>
+              )
+            })}
+        </FormGroup>
+        <Plus_answer />
+        <Button variant="primary" type="submit">
+          Submit
+        </Button>
+      </Form>
+    </div>
+  )
+  /*
 
 function Questionfield() {
   return (
     <div className="Questionbox">
       <h2> Create a question </h2>
-      <form>
         <label>Enter question</label>
         <input type="text" placeholder="Question" name="ques"></input>
-      </form>
     </div>
   );
 }
@@ -42,33 +81,14 @@ function Choicefield(props: {idx: number}) {
 };
 
 
-function Create() {
-  const [numChoices, setNumChoices] = useState<number>(3);
   
-  function handlePlus() {
-    setNumChoices(numChoices => numChoices + 1);
-  };
-
-  function Plus_answer() {
-    return (
-      <span className="Button">
-        <Button onClick={handlePlus}>+</Button>{''}
-      </span>
-    );
-  };
-
-
   return (
-    <div className="PollStar">
-      <header className="Poll-header">
-        <h1 >Pollstar</h1>
-      </header>
-      <div>
-        <div className="container text-center"></div>
-
-        <div className="row">
-          <div className="col"></div>
-          <div className="col">
+    <div className="Create">
+      <Form className="mb-3">
+        <FormGroup>
+          <FormLabel>Question</FormLabel>
+          <FormControl type="text" value={question} />
+        </FormGroup>
             <div className="NewPoll">
               <Questionfield />
               <div className="choiceBox">
@@ -80,16 +100,11 @@ function Create() {
                 </div>
               </div>
               <Plus_answer />
-              <Button variant="primary" type="submit" onClick={() => BasicExample()}>Submit</Button>
+              <Button variant="primary" type="submit">Submit</Button>
             </div>
-          </div>
-          <div className="col"></div>
-        </div>
-      </div>
-
     </div>
-
-  );
+  ) */
+ 
 };
 
 export default Create;
