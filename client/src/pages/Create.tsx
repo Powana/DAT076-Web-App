@@ -18,18 +18,6 @@ function BasicExample() {
   );
 }
 
-
-interface IChoice {
-  id: number;
-  choicetext: string;
-}
-
-interface Poll {
-  id: number;
-  question: string;
-  choices: Map<IChoice, number>;
-}
-
 function Questionfield() {
   return (
     <div className="Questionbox">
@@ -42,64 +30,19 @@ function Questionfield() {
   );
 }
 
-interface ChoiceItemProps {
-  key: number;
-  choicetext: string;
-}
-
-
-function Choicefield() {
+function Choicefield(props: {idx: number}) {
   return (
     <div className="Choicebox">
       <form>
         <label>Enter answer</label>
-        <input type="text" placeholder="option" name="ans"></input>
+        <input type="text" placeholder="Option" name={props.idx.toString()}></input>
       </form>
     </div>
   );
 };
 
-
-/*
-function ChoiceItem({choicetext}:ChoiceItemProps) {
-  return (
-    Choicefield
-  );
-};
-*/
-
-function ChoiceItem({ choicetext }: ChoiceItemProps) {
-  return (
-    <div className="Choicebox">
-      <form>
-        <label>Enter answer</label>
-        <input type="text" placeholder="option" name="ans"></input>
-      </form>
-    </div>
-  );
-};
-
-/*
-function Add_answer() {
-  return (
-    <div className="Button">
-      <Button variant="primary" onClick= {moreChoice}>add Answer</Button>{''}
-    </div>
-  );
-};
-*/
-
-
-function Submit() {
-  return (
-    <div className="Button">
-      <Button variant="primary" onClick={() => BasicExample()}>Submit</Button>{' '}
-    </div>
-  );
-}
 
 function Create() {
-  const [iChoices, setIChoicees] = useState<IChoice[]>([])
   const [numChoices, setNumChoices] = useState<number>(3);
   
   function handlePlus() {
@@ -131,14 +74,13 @@ function Create() {
               <div className="choiceBox">
                 <h2 >Possible answers </h2>
                 <div>
-                  {Array.from(Array(numChoices).keys())
-                    .map((n: number) => {
-                      return <Choicefield key={n} />
-                    })}
+                  {[...Array(numChoices)].map((_, i) =>
+                    <Choicefield idx={i} />
+                  )}
                 </div>
               </div>
               <Plus_answer />
-              <Submit />
+              <Button variant="primary" type="submit" onClick={() => BasicExample()}>Submit</Button>
             </div>
           </div>
           <div className="col"></div>
