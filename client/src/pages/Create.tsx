@@ -2,32 +2,39 @@ import React, { useEffect, useState } from 'react';
 import './Create.css';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
-
-import Toast from 'react-bootstrap/Toast';
+import { useNavigate } from 'react-router-dom';
 import { Form, FormGroup, FormLabel, FormControl } from 'react-bootstrap';
 
 function Create() {
   const [numChoices, setNumChoices] = useState<number>(3);
+  const navigate = useNavigate();
   
-  function handlePlus() {
+  function addChoice() {
     setNumChoices(numChoices => numChoices + 1);
   };
 
-  function handleSubmit(e: any) {
+  async function handleSubmit(e: any) {
     e.preventDefault();    
-    alert('You clicked submit.');
+    
     /* Create a json object here:
       {question:<q>, choices: [<cs>]}
       and POST it, instead of using the default submit behaviour */
+    const data = new FormData(e.target),
+          dataObj = Object.fromEntries(data.entries())
+    const question = dataObj.question;
+    delete dataObj.question;
+    const choices = Object.values(dataObj);
+    const jsonPoll = {"question": question, "choices": choices}
+    
+    // formatted data is now sent to backend
+    // use response to get id and redirect to correct poll
+    try {
+      let res = await axios.post("http://localhost:8080/poll", jsonPoll)
+      navigate("/result/" + res.data.id);
+    } catch(error) {
+      console.log(error)
+    }
   }
-
-  function Plus_answer() {
-    return (
-      <span className="Button">
-        <Button onClick={handlePlus}>+</Button>{''}
-      </span>
-    );
-  };
 
   
   return (
@@ -36,7 +43,7 @@ function Create() {
       <Form className="mb-3" onSubmit={handleSubmit}>
         <FormGroup>
           <FormLabel>Question</FormLabel>
-          <FormControl type="text" />
+          <FormControl name="question" type="text" />
         </FormGroup>
         
         <FormGroup>
@@ -50,61 +57,13 @@ function Create() {
               )
             })}
         </FormGroup>
-        <Plus_answer />
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
+        <Button onClick={addChoice}>+</Button>
+        <div className='submit-button'>
+          <Button variant="primary" type="submit">Submit</Button>
+        </div>
       </Form>
     </div>
   )
-  /*
-
-function Questionfield() {
-  return (
-    <div className="Questionbox">
-      <h2> Create a question </h2>
-        <label>Enter question</label>
-        <input type="text" placeholder="Question" name="ques"></input>
-    </div>
-  );
-}
-
-function Choicefield(props: {idx: number}) {
-  return (
-    <div className="Choicebox">
-      <form>
-        <label>Enter answer</label>
-        <input type="text" placeholder="Option" name={props.idx.toString()}></input>
-      </form>
-    </div>
-  );
-};
-
-
-  
-  return (
-    <div className="Create">
-      <Form className="mb-3">
-        <FormGroup>
-          <FormLabel>Question</FormLabel>
-          <FormControl type="text" value={question} />
-        </FormGroup>
-            <div className="NewPoll">
-              <Questionfield />
-              <div className="choiceBox">
-                <h2 >Possible answers </h2>
-                <div>
-                  {[...Array(numChoices)].map((_, i) =>
-                    <Choicefield idx={i} />
-                  )}
-                </div>
-              </div>
-              <Plus_answer />
-              <Button variant="primary" type="submit">Submit</Button>
-            </div>
-    </div>
-  ) */
- 
 };
 
 export default Create;

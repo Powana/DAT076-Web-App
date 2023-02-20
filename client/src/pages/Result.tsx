@@ -15,7 +15,6 @@ function Result() {
         axios.get("http://localhost:8080/poll").then((response) => {
             setQuestion(response.data.question);
             setChoices(response.data.choices);
-            console.log(response.data.choices)
         });
     }, []);
 

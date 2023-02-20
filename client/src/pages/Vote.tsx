@@ -33,7 +33,6 @@ function Vote() {
       <div className='App-choices'>
         <SingleChoiceList choices={choices} setChoice={setChosenId}></SingleChoiceList>
       </div>
-      <br/>
       <div className='submitButton'>
       <Button onClick={submitVote}>Submit choice</Button>
       </div>
