@@ -11,7 +11,22 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <PollEditApp />
+    <div className="App">
+        <header className='App-header'>
+          <h1>Pollstar</h1>
+        </header>
+      <div className='content'>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Home/>}/>
+          <Route path='/create/' element={<Create/>}/>
+          <Route path='/vote/:id' element={<Vote/>}/>
+          <Route path='/result/:id' element={<Result/>}/>
+          <Route path='/edit/:id' element={<Edit/>}/>
+        </Routes>
+      </BrowserRouter>
+      </div>
+    </div>
   </React.StrictMode>
 );
 

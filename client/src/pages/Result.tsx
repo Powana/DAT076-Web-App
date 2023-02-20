@@ -1,0 +1,48 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { Table } from "react-bootstrap";
+import ChoiceResult from "../components/ChoiceResult";
+
+function Result() {
+
+
+    const [question, setQuestion] = useState("")
+    const [choices, setChoices] = useState([]);
+    const { id } = useParams();
+    //TODO: add id to get request
+    useEffect(() => {
+        axios.get("http://localhost:8080/poll").then((response) => {
+            setQuestion(response.data.question);
+            setChoices(response.data.choices);
+            console.log(response.data.choices)
+        });
+    }, []);
+
+    //TODO: Calculate and sort by top choice(s)
+    const choiceResults = Object.entries(choices).map(
+      ([key, value]) => {
+        return (
+          <ChoiceResult choice={key} votes={value}></ChoiceResult>
+        )
+      }
+    )
+    return (
+      <div className="Result">
+        <h3>{question}</h3>
+        <Table striped bordered >
+          <thead>
+            <tr>
+              <th>Choice</th>
+              <th>Votes</th>
+            </tr>
+          </thead>
+          <tbody>
+            {choiceResults}
+          </tbody>
+        </Table>
+      </div>
+    )
+  }
+  
+  export default Result
