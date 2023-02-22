@@ -6,29 +6,46 @@ import { Poll } from "../models/poll.model";
 // Would make more sense to create a 'Poll' interface as we could have different implementations of Polls
 interface IPollService {
     // Returns the poll
-    getPoll() : Promise<Poll>;
+    getPoll(pollID: number) : Promise<Poll>;
 
     // Creates a poll
     createPoll(question : string, choices : Array<IChoice>) : Promise<Poll>;
 
     // Increments a choice in the poll
-    // incrementCount(choice : number) : Promise<boolean>;
+    incrementCount(pollID : number, choice : number) : Promise<boolean>;
+
+    // Returns all polls
+    getAllPolls() : Promise<Poll[]>
 }
 
 export class PollService implements IPollService {
 
-    async getPoll(): Promise<Poll> {
-        let foundPoll = await Poll.findOne({include: [TextChoice]});  // For demonstration purposes, limit to one poll at a time, simply select the first poll found
+    async incrementCount(pollID: number, choice: number): Promise<boolean> {
+
+        // Searches the choices for the correct pollID and choice id
+        // Then incrementing value in database
+        try {
+            const ch = await TextChoice.findOne({where: {pollId: pollID, id: choice}})
+            await ch?.increment({votes: +1})
+        } catch (error) {
+            return Promise.reject(false);
+        }
+        
+        
+        return true;
+    }
+
+    async getPoll(pollID: number): Promise<Poll> {
+
+        const foundPoll = await Poll.findOne({where: {id: pollID}, include: [TextChoice]});
+        
         if (foundPoll === null) {
             return Promise.reject("No poll found.")
         }
         return foundPoll;
     }
-    // TODO
-    //async incrementCount(choice: TextChoice): Promise<boolean> {
-    //    
-    //}
-
+    
+    
     async createPoll(question: string, choices: Array<IChoice>): Promise<Poll> {
         const poll = new Poll({question, choices});
         poll.save();
@@ -37,7 +54,7 @@ export class PollService implements IPollService {
     
     async createPollFromAny(question: string, choices: any[]): Promise<Poll> {
         const poll = await new Poll({question: question}).save();
-
+        
         choices.forEach(choice => {
             switch (typeof(choice)){
                 case "string": {
@@ -50,5 +67,13 @@ export class PollService implements IPollService {
             }
         });
         return poll;
+    }
+
+    async getAllPolls(): Promise<Poll[]> {
+        let foundPoll = await Poll.findAll({include: [TextChoice]}); 
+        if (foundPoll === null) {
+            return Promise.reject("No poll found.")
+        }
+        return foundPoll;
     }
 }

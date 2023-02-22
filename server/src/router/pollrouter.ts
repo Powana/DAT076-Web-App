@@ -17,18 +17,11 @@ pollRouter.route("/")
                 return;
             }
 
-            await pollService.getPoll().then(
-                (foundPoll) => {  // At the moment, only allow for one poll for simple testing purposes.
-                    // Debug for testing purposes
-                    foundPoll.$get("choices").then((foundPollChoices) => {
-                        for (let c of foundPollChoices) {
-                            console.log(c);
-                        }
-                    })
-                    console.log("CCC");
-                    res.status(200).send(foundPoll)// This is an example payload, containing only simple text, TODO: Find a better way to return this
+            await pollService.getAllPolls().then(
+                (foundPolls) => {
+                    res.status(200).send(foundPolls)
                 }, () => {
-                    res.status(200).send("No poll has been created");
+                    res.status(400).send("No poll has been created");
                 })
             
         } catch (e: any) {
@@ -36,11 +29,11 @@ pollRouter.route("/")
         }
     })
     // POST /poll/ Create a new poll, Payload format {"question": <question: str>, "choices": [<array of choice str>]}
-    .post(async (req : Request<{}, {}, {question: string, choices: Array<any>}>, res) => {
+    .post(async (req : Request<{}, {}, {question: string, choices: Array<string>}>, res) => {
         try {
-            const question: string = req.body["question"]
-            const raw_choices: Array<string> = req.body["choices"] 
-            
+            const question: string = req.body["question"];
+            const raw_choices: Array<string> = req.body["choices"];
+
             if (question == null || raw_choices == null) {
                 res.status(400).send("Invalid payload")
             }
@@ -59,19 +52,35 @@ pollRouter.route("/")
             res.status(500).send(e.message);
         }
     })
-    // TODO: Will probably not work, can't pass IChoices via JSON right?
-    .put(async (req: Request<{}, {}, {choice: IChoice}>, res) => {
+    
+    .put(async (req: Request<{}, {}, {pollID: number, choice: number}>, res) => {
         try {
-            const choice: IChoice = req.body["choice"]
+            const pollID = req.body.pollID
+            const choice = req.body.choice
             
             if (choice == null) {
                 res.status(400).send("Invalid payload")
             }
             
-            // TODO res.status(200).send(await pollService.incrementCount(choice));
+            res.status(200).send(await pollService.incrementCount(pollID, choice));
 
         } catch (e: any) {
             res.status(500).send(e.message);
         }
     })
 
+pollRouter.route("/:id").get(async (req : Request, res : Response) => {
+    try {
+        console.log("The params id is: ", parseInt(req.params.id))
+        
+        await pollService.getPoll(parseInt(req.params.id)).then(
+            (foundPoll) => {
+                res.status(200).send(foundPoll)
+            }, () => {
+                res.status(400).send("No poll has been created");
+            })
+        
+    } catch (e: any) {
+        res.status(500).send(e.message);
+    }
+})

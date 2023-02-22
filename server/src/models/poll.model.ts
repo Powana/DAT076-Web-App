@@ -12,7 +12,4 @@ export class Poll extends Model {
   @HasMany(() => TextChoice)
   choices!: TextChoice[];
 
-  public incrementCount(choice : TextChoice) {
-    // TODO
-  }
 }

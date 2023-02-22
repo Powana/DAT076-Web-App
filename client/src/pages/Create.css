@@ -27,3 +27,7 @@ header > h1 {
   padding-bottom: 1vh;
   margin-bottom: 1vh;
 }
+
+.submit-button {
+  margin-top: 8vh;
+}

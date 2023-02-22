@@ -12,10 +12,9 @@ function Result() {
     const { id } = useParams();
     //TODO: add id to get request
     useEffect(() => {
-        axios.get("http://localhost:8080/poll").then((response) => {
+        axios.get("http://localhost:8080/poll/" + id).then((response) => {
             setQuestion(response.data.question);
             setChoices(response.data.choices);
-            console.log(response.data.choices)
         });
     }, []);
 
