@@ -19,6 +19,12 @@ function Create() {
     setNumChoices(numChoices => numChoices + 1);
   };
 
+  function subtractChoice() {
+    if (numChoices>2){
+    setNumChoices(numChoices => numChoices - 1);
+    }
+  };
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     /* Create a json object here:
       {question:<q>, choices: [<cs>]}
@@ -71,6 +77,7 @@ function Create() {
               )
             })}
         </FormGroup>
+        <Button onClick={subtractChoice}>-</Button>
         <Button onClick={addChoice}>+</Button>
         <div className='submit-button'>
           <Button variant="primary" type="submit">Submit</Button>
