@@ -1,0 +1,33 @@
+.Poll-header {
+    text-align: center;
+    background-color: rgb(62, 62, 219);
+    align-items: center;
+    padding-bottom: 2vh;
+    margin-bottom: 8vh;
+  }
+  
+  header > h1 {
+    font-size: 60px;
+    padding-top: 0.5vh;
+  }
+  
+  .NewPoll{
+    text-align: center;
+    align-items: center;
+    padding-bottom: 2vh;
+    margin-bottom: 2vh;
+  }
+  
+  .choiceBox{
+    padding-bottom: 2vh;
+    margin-bottom: 2vh;
+  }
+  
+  .Button{
+    padding-bottom: 1vh;
+    margin-bottom: 1vh;
+  }
+  
+  .submit-button {
+    margin-top: 8vh;
+  }
