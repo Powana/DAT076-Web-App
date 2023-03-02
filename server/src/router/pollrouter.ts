@@ -37,7 +37,6 @@ pollRouter.route("/")
             if (question == null || raw_choices == null) {
                 res.status(400).send("Invalid payload")
             }
-           
             else {
                 await pollService.createPollFromAny(question, raw_choices).then(
                     (newPoll) => {  // If a new poll was succesfully created:
