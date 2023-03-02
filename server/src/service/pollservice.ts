@@ -16,9 +16,28 @@ interface IPollService {
 
     // Returns all polls
     getAllPolls() : Promise<Poll[]>
+
+    // Update values in a poll
+    editPoll(pollID: number, question : string, choices : Array<IChoice>) : Promise<Poll>;
 }
 
 export class PollService implements IPollService {
+
+    async editPoll(pollID: number, question: string, choices: Array<TextChoice>): Promise<Poll> {
+
+        const poll = await Poll.findOne({where: {id: pollID}, include: [TextChoice]});
+        if (!poll) return Promise.reject("No poll found");
+        // Update question
+        poll.question = question;
+        poll.save()
+
+        choices.forEach(choice => {
+            TextChoice.update({text: choice.text}, {where: {pollId: pollID, id: choice.id}})
+        });
+
+        return poll;
+        
+    }
 
     async incrementCount(pollID: number, choice: number): Promise<boolean> {
 
