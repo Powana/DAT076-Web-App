@@ -2,6 +2,7 @@ import { app } from "./start";
 import { config } from "./config";
 import {TextChoice} from "./models/choice.model"
 import {Poll} from "./models/poll.model"
+import { Comment } from "./models/comment.model";
 import { Sequelize } from "sequelize-typescript";
 
 
@@ -29,7 +30,7 @@ if (!config.FAKE_DB) {
             password: DB_PASS,
             dialect: 'postgres',
         
-            models: [Poll, TextChoice]  // Relative path to our models
+            models: [Poll, TextChoice, Comment]  // Relative path to our models
         }
         );
         (async () => {

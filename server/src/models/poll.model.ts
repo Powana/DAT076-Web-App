@@ -1,5 +1,6 @@
 import { Table, Model, Column, HasMany } from "sequelize-typescript";
 import { TextChoice } from "./choice.model";
+import { Comment } from "./comment.model";
 
 @Table
 export class Poll extends Model {
@@ -11,5 +12,8 @@ export class Poll extends Model {
   // Maybe just have them all be text and then have a struct/string that defines how to treat the text
   @HasMany(() => TextChoice)
   choices!: TextChoice[];
+
+  @HasMany(() => Comment)
+  comments!: Comment[];
 
 }

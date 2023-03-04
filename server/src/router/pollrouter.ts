@@ -98,3 +98,18 @@ pollRouter.route("/:id")
             res.status(500).send(e.message);
         }
     })
+
+    .post(async (req : Request<{id: string}, {}, {name: string, text: string}>, res) => {
+        try {
+
+            await pollService.addComment(parseInt(req.params.id), req.body.name, req.body.text).then(
+                (foundPoll) => {
+                    res.status(200).send(foundPoll)
+                }, () => {
+                    res.status(400).send("Comment was not added");
+                })
+            
+        } catch (e: any) {
+            res.status(500).send(e.message);
+        }
+    })

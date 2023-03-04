@@ -1,6 +1,6 @@
 import { IChoice, TextChoice } from "../models/choice.model";
 import { Poll } from "../models/poll.model";
-
+import { Comment } from "../models/comment.model"
 
 // Having an interface doesn't really make sense as we're only ever going to create one PollService
 // Would make more sense to create a 'Poll' interface as we could have different implementations of Polls
@@ -19,9 +19,22 @@ interface IPollService {
 
     // Update values in a poll
     editPoll(pollID: number, question : string, choices : Array<IChoice>) : Promise<Poll>;
+
+    addComment(pollID: number, name: string, text: string) : Promise<boolean>
 }
 
 export class PollService implements IPollService {
+
+    async addComment(pollID: number, name: string, text: string): Promise<boolean> {
+        const poll = await Poll.findOne({where: {id: pollID}, include: [Comment]});
+        if (!poll) return Promise.reject("No poll found");
+        const comment = new Comment({name, text})
+        comment.pollId = pollID;
+        comment.save()
+        poll.comments.push(comment)
+        poll.save();
+        return true;
+    }
 
     async editPoll(pollID: number, question: string, choices: Array<TextChoice>): Promise<Poll> {
 
@@ -56,7 +69,7 @@ export class PollService implements IPollService {
 
     async getPoll(pollID: number): Promise<Poll> {
 
-        const foundPoll = await Poll.findOne({where: {id: pollID}, include: [TextChoice]});
+        const foundPoll = await Poll.findOne({where: {id: pollID}, include: [TextChoice, Comment]});
         
         if (foundPoll === null) {
             return Promise.reject("No poll found.")

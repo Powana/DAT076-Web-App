@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
+import CommentSection from "../components/CommentSection";
 import { SingleChoiceList } from "../components/SingleChoiceList";
 
 function Vote() {
@@ -11,12 +12,14 @@ function Vote() {
   const [question, setQuestion] = useState("")
   const [choices, setChoices] = useState([]);
   const [chosenId, setChosenId] = useState();
+  const [comments, setComments] = useState([]);
   const navigate = useNavigate();
   //TODO: add id to get request
   useEffect(() => {
       axios.get("http://localhost:8080/poll/" + id).then((response) => {
           setChoices(response.data.choices);
-          setQuestion(response.data.question)
+          setQuestion(response.data.question);
+          setComments(response.data.comments);
       });
   }, []);
   
@@ -35,8 +38,9 @@ function Vote() {
         <SingleChoiceList choices={choices} setChoice={setChosenId}></SingleChoiceList>
       </div>
       <div className='submitButton'>
-      <Button onClick={submitVote}>Submit choice</Button>
+        <Button onClick={submitVote}>Submit choice</Button>
       </div>
+        <CommentSection id={(id ? id : "1")} comments={comments}></CommentSection>
     </div>
     </div>
   )
