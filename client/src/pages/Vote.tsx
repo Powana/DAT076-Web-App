@@ -14,7 +14,7 @@ function Vote() {
   const [chosenId, setChosenId] = useState();
   const [comments, setComments] = useState([]);
   const navigate = useNavigate();
-  //TODO: add id to get request
+  
   useEffect(() => {
       axios.get("http://localhost:8080/poll/" + id).then((response) => {
           setChoices(response.data.choices);

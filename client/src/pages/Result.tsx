@@ -9,8 +9,8 @@ function Result() {
 
     const [question, setQuestion] = useState<string>();
     const [choices, setChoices] = useState<any[]>();
-    const { id } = useParams();
-    //TODO: add id to get request
+    const { id } = useParams(); // Gets current id from url
+    
     useEffect(() => {
         axios.get("http://localhost:8080/poll/" + id).then((response) => {
             setQuestion(response.data.question);

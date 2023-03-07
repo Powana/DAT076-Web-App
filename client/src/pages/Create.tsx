@@ -26,10 +26,7 @@ function Create() {
   };
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    /* Create a json object here:
-      {question:<q>, choices: [<cs>]}
-      and POST it, instead of using the default submit behaviour 
-    */
+    
     e.preventDefault();
     
     if (questionInputRef?.current?.value == "" || choicesInputRefs.some((choiceRef) => {return choiceRef?.current?.value == ""})) {
@@ -39,11 +36,9 @@ function Create() {
 
     let newPoll = {
       question: questionInputRef?.current?.value||"Nothing",
-      choices: choicesInputRefs.reverse().map((choice) => {return choice?.current?.value})  //Reverse as elements are listed from bottom up, then get the value
+      choices: choicesInputRefs.map((choice) => {return choice?.current?.value})  //Reverse as elements are listed from bottom up, then get the value
     }
-
-    console.log(JSON.stringify(newPoll))
-    // Send the JSON object to the backend via POST
+    
     try {
       let res = await axios.post("http://localhost:8080/poll", 
         {

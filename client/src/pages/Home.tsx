@@ -15,7 +15,6 @@ function Home() {
         voteButton = <Button disabled>Vote on Poll</Button>
     }
 
-    //TODO: Create should GET new id
     return (
       <div className="Home">
         <Link to="/create"><Button>Create new Poll</Button></Link>

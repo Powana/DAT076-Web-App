@@ -38,8 +38,7 @@ function Edit() {
 
   async function submitEdit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log("question: ", question)
-    console.log("choices: ", choices)
+    
     await axios.put("http://localhost:8080/poll/"+ id, {"question": question, "choices": choices})
     navigate("/result/" + id);
   }
