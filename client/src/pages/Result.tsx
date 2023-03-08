@@ -43,7 +43,7 @@ function Result() {
             {choiceResults}
           </tbody>
         </Table>
-        <a  className="button" href="../redirect"><Button>HTML button tag 2</Button></a>     
+        <a  className="button" href="../redirect"><Button>Back to start page</Button></a>     
       </div>
     )
   }
