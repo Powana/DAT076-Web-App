@@ -2,17 +2,30 @@ import { Button } from "react-bootstrap"
 import { Link } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 function Home() {
 
     const [id, setId] = useState(-1)
+    const [availablePollIds, setAvailablePollIds] = useState([0])
 
-    // This is used to render the vote button differently depending on a correct integer id
+    useEffect(() => {
+      axios.get("http://localhost:8080/poll/").then((response) => {
+        let ids = response.data.map((obj: { id: number; }) =>
+          obj.id);
+        setAvailablePollIds(ids);
+      });
+    }, []);
+
+    // This is used to render the buttons differently depending on a correct and existing integer pollid
     let voteButton;
-    if (Number.isInteger(id) && id >= 1) {
+    let editButton;
+    if (Number.isInteger(id) && id >= 1 && availablePollIds.includes(id)) {
         voteButton = <Link to={("/vote/"+ id)}><Button>Vote on Poll</Button></Link>;
+        editButton = <Link to={("/edit/"+ id)}><Button>Edit Poll</Button></Link>;
     } else {
-        voteButton = <Button disabled>Vote on Poll</Button>
+        voteButton = <Button disabled>Vote on Poll</Button>;
+        editButton = <Button disabled>Edit Poll</Button>;
     }
 
     return (
@@ -31,7 +44,12 @@ function Home() {
             }
             />
       </InputGroup>
+      <InputGroup className="mb-1">
         {voteButton}
+      </InputGroup>
+      <InputGroup>
+        {editButton}
+      </InputGroup>
         </div>
       </div>
     )

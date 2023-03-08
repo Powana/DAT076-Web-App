@@ -30,7 +30,7 @@ if (!config.FAKE_DB) {
             password: DB_PASS,
             dialect: 'postgres',
         
-            models: [Poll, TextChoice, Comment]  // Relative path to our models
+            models: [Poll, TextChoice, Comment]  // Relative path to our models could be used instead
         }
         );
         (async () => {
@@ -40,7 +40,7 @@ if (!config.FAKE_DB) {
                 throw Error('Unable to connect to the database: ' + error);
             });
             // force: true will wipe any existing tables, useful for dev.
-            await sequelize.sync({ force: true }).catch((error: any) => {throw Error('Unable to sync to database: ' + error);});
+            await sequelize.sync({ force: false }).catch((error: any) => {throw Error('Unable to sync to database: ' + error);});
         
             app.listen(PORT, () => {
                 console.log(`listening on port ${PORT}`);
