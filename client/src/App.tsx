@@ -1,6 +1,6 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {BrowserRouter, Routes, Route } from "react-router-dom";
+import {BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from './pages/Home';
 import Create from './pages/Create';
 import Edit from './pages/Edit';
@@ -28,6 +28,7 @@ function App() {
       <Route path='/vote/:id' element={<Vote/>}/>
       <Route path='/result/:id' element={<Result/>}/>
       <Route path='/edit/:id' element={<Edit/>}/>
+      <Route path='/redirect' element={<Navigate to="/"/>}/>
     </Routes>
   </BrowserRouter>
   </div>

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button, Table } from "react-bootstrap";
 import ChoiceResult from "../components/ChoiceResult";
+import home from "./Home";
 
 function Result() {
 
@@ -26,6 +27,7 @@ function Result() {
         )
       }
     )
+   
 
     return (
       <div className="Result">
@@ -41,7 +43,7 @@ function Result() {
             {choiceResults}
           </tbody>
         </Table>
-        <Button>  <Link to="/">Home</Link>Back to Start</Button>
+        <a  className="button" href="../redirect"><Button>HTML button tag 2</Button></a>     
       </div>
     )
   }
