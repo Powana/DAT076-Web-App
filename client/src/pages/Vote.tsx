@@ -30,7 +30,9 @@ function Vote() {
   return (
     <div className="Vote">
       <div className='App-content'>
+    
       <h3>{question}</h3>
+      <h4>Poll ID: {id}</h4>
       <div className='App-choices'>
         <SingleChoiceList choices={choices} setChoice={setChosenId}></SingleChoiceList>
       </div>

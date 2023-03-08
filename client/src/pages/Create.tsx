@@ -16,7 +16,9 @@ function Create() {
   }
   
   function addChoice() {
+    if (numChoices<10){
     setNumChoices(numChoices => numChoices + 1);
+    }
   };
 
   function subtractChoice() {

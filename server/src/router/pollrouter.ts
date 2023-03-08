@@ -79,5 +79,5 @@ pollRouter.route("/:id").get(async (req : Request, res : Response) => {
         
     } catch (e: any) {
         res.status(500).send(e.message);
-    }
+    }    
 })

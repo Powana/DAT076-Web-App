@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Table } from "react-bootstrap";
+import { Link, useParams } from "react-router-dom";
+import { Button, Table } from "react-bootstrap";
 import ChoiceResult from "../components/ChoiceResult";
 
 function Result() {
@@ -26,6 +26,7 @@ function Result() {
         )
       }
     )
+
     return (
       <div className="Result">
         <h3>{question}</h3>
@@ -40,6 +41,7 @@ function Result() {
             {choiceResults}
           </tbody>
         </Table>
+        <Button>  <Link to="/">Home</Link>Back to Start</Button>
       </div>
     )
   }
