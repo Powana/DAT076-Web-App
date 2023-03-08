@@ -66,18 +66,50 @@ pollRouter.route("/")
         }
     })
 
-pollRouter.route("/:id").get(async (req : Request, res : Response) => {
-    try {
-        console.log("The params id is: ", parseInt(req.params.id))
-        
-        await pollService.getPoll(parseInt(req.params.id)).then(
-            (foundPoll) => {
-                res.status(200).send(foundPoll)
-            }, () => {
-                res.status(400).send("No poll has been created");
-            })
-        
-    } catch (e: any) {
-        res.status(500).send(e.message);
-    }    
-})
+pollRouter.route("/:id")
+
+    .get(async (req : Request, res : Response) => {
+        try {
+            console.log("The params id is: ", parseInt(req.params.id))
+            
+            await pollService.getPoll(parseInt(req.params.id)).then(
+                (foundPoll) => {
+                    res.status(200).send(foundPoll)
+                }, () => {
+                    res.status(400).send("No poll has been created");
+                })
+            
+        } catch (e: any) {
+            res.status(500).send(e.message);
+        }
+    })
+    
+    .put(async (req : Request<{id: string}, {}, {question: string, choices: Array<TextChoice>}>, res) => {
+        try {
+            
+            await pollService.editPoll(parseInt(req.params.id), req.body.question, req.body.choices).then(
+                (foundPoll) => {
+                    res.status(200).send(foundPoll)
+                }, () => {
+                    res.status(400).send("Poll was not updated");
+                })
+            
+        } catch (e: any) {
+            res.status(500).send(e.message);
+        }
+    })
+
+    .post(async (req : Request<{id: string}, {}, {name: string, text: string}>, res) => {
+        try {
+
+            await pollService.addComment(parseInt(req.params.id), req.body.name, req.body.text).then(
+                (foundPoll) => {
+                    res.status(200).send(foundPoll)
+                }, () => {
+                    res.status(400).send("Comment was not added");
+                })
+            
+        } catch (e: any) {
+            res.status(500).send(e.message);
+        }
+    })

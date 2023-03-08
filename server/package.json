@@ -6,6 +6,17 @@
     "dev": "ts-node-dev --respawn --pretty --transpile-only src/index.ts",
     "test": "jest"
   },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "transform": {
+      "node_modules/variables/.+/.(j|t)sx?$": "ts-jest"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!variables/.*)"
+    ]
+  },
+
   "author": "",
   "license": "ISC",
   "dependencies": {
