@@ -13,7 +13,7 @@ export function SingleChoiceList(props : {choices : Array<{id: number, text: str
 
   return (
     <>
-      <ButtonGroup vertical className="mb-2">
+      <ButtonGroup vertical className="mb-2" data-testid="SingleChoiceList">
         {props.choices.map((choice, idx) => (
           <ToggleButton
             key={idx}
@@ -24,6 +24,7 @@ export function SingleChoiceList(props : {choices : Array<{id: number, text: str
             value={choice.id}
             checked={radioValue === choice.id}
             onChange={(e) => updateChoice(parseInt(e.currentTarget.value))}
+            data-testid="SingleChoiceListButton"
           >
             {choice.text}
           </ToggleButton>

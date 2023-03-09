@@ -11,7 +11,7 @@ function Vote() {
 
   const [question, setQuestion] = useState("")
   const [choices, setChoices] = useState([]);
-  const [chosenId, setChosenId] = useState();
+  const [chosenId, setChosenId] = useState(-1);
   const [comments, setComments] = useState([]);
   const navigate = useNavigate();
   
