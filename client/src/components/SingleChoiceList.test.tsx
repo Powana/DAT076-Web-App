@@ -10,7 +10,7 @@ import { SingleChoiceList } from "./SingleChoiceList";
 
 let container: any = null;
 beforeEach(() => {
-  // setup a DOM element as a render target
+  // setup a JS-DOM element as a render target, so that we don't need to use a brwoser to render
   container = document.createElement("div");
   document.body.appendChild(container);
 });
@@ -58,16 +58,15 @@ it("should render the text contents of choices correctly", () => {
 })
 
 test("functionality of selecting a choice", () => {
-    const selectedId = Math.floor(Math.random() * fakeChoices.length);
     // Render the component first
     act(() => {
         render(<SingleChoiceList choices={fakeChoices} setChoice={fakeSetChoice}/>, container);
     });
 
     const choiceList = document.querySelector("[data-testid=SingleChoiceList]");
-    expect(choiceList).toBeTruthy();
+    expect(choiceList).toBeTruthy();  /// Expect choiceList to not be null
 
-    if (choiceList == null) {  // Simple way to shut up typescript
+    if (choiceList == null) {  // Simple way to shut up typescript about potential null type
         return;
     } 
 
@@ -79,16 +78,14 @@ test("functionality of selecting a choice", () => {
     let chosenIdStr: string | null | undefined;
     let chosenId: number = -1;
 
-    // Select a random button and click it a few times
+    // Select a random button from the list and click it a few times
     for (let i=0; i<10; i++) {
         randomIdx = Math.floor(Math.random() * fakeChoices.length)
         button = choiceButtons[randomIdx];
-        expect(button)
-        console.log("=")
-        console.log(button.innerHTML)
-        console.log("=")
-        console.log(button.getElementsByTagName)
-        // Get the actual input assoicated with the button, which contains the value attribute
+
+        expect(button).toBeTruthy();
+
+        // Get the actual input assoicated with the button, which contains the choiceID in the value attribute
         chosenIdStr = choiceList.querySelector("[id=" + button.getAttribute('for') +"]")?.getAttribute("value");
         expect(chosenIdStr).toBeTruthy();
 

@@ -1,5 +1,4 @@
 import React, { useRef, useState, createRef } from 'react';
-import './Create.css';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -28,7 +27,6 @@ function Create() {
   };
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    
     e.preventDefault();
     
     if (questionInputRef?.current?.value == "" || choicesInputRefs.some((choiceRef) => {return choiceRef?.current?.value == ""})) {
@@ -58,24 +56,24 @@ function Create() {
     <div className="Create">
     <h2> Create a poll </h2>
       <Form className="mb-3" onSubmit={handleSubmit}>
-        <FormGroup>
+        <FormGroup key="questionKey">
           <FormLabel>Question</FormLabel>
-          <FormControl type="text" ref={questionInputRef} required />
+          <FormControl type="text" ref={questionInputRef} required data-testid="questionInput"/>
         </FormGroup>
         
-        <FormGroup>
+        <FormGroup key="choicesKey">
           <FormLabel>Choices:</FormLabel>
           {[...Array(numChoices)].map((_, i) => {
               return (
-              <FormGroup>
+              <FormGroup key={i}>
                 <FormLabel>Choice</FormLabel>
-                <FormControl name={i.toString()} type="text" ref={choicesInputRefs[i]} required /> 
+                <FormControl name={i.toString()} type="text" ref={choicesInputRefs[i]} required data-testid="choiceInput"/> 
               </FormGroup>
               )
             })}
         </FormGroup>
-        <Button onClick={subtractChoice}>-</Button>
-        <Button onClick={addChoice}>+</Button>
+        <Button onClick={subtractChoice} data-testid="subChoice">-</Button>
+        <Button onClick={addChoice} data-testid="addChoice">+</Button>
         <div className='submit-button'>
           <Button variant="primary" type="submit">Submit</Button>
         </div>
