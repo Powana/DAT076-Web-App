@@ -8,31 +8,30 @@ import Result from './pages/Result';
 import Vote from './pages/Vote';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Col, Container, Row } from 'react-bootstrap';
 
 
 function App() {
   
 
   return (
-
-
-    <div className="App">
+  <div className="App">
     <header className='App-header'>
       <h1>Pollstar</h1>
     </header>
-  <div className='content'>
-  <BrowserRouter>
-    <Routes>
-      <Route path='/' element={<Home/>}/>
-      <Route path='/create/' element={<Create/>}/>
-      <Route path='/vote/:id' element={<Vote/>}/>
-      <Route path='/result/:id' element={<Result/>}/>
-      <Route path='/edit/:id' element={<Edit/>}/>
-      <Route path='/redirect' element={<Navigate to="/"/>}/>
-    </Routes>
-  </BrowserRouter>
+    <div className='content'>
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<Home/>}/>
+            <Route path='/create/' element={<Create/>}/>
+            <Route path='/vote/:id' element={<Vote/>}/>
+            <Route path='/result/:id' element={<Result/>}/>
+            <Route path='/edit/:id' element={<Edit/>}/>
+            <Route path='/redirect' element={<Navigate to="/"/>}/>
+          </Routes>
+        </BrowserRouter>
+    </div>
   </div>
-</div>
   );
 }
 

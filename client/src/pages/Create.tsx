@@ -72,10 +72,10 @@ function Create() {
               )
             })}
         </FormGroup>
-        <Button onClick={subtractChoice} data-testid="subChoice">-</Button>
-        <Button onClick={addChoice} data-testid="addChoice">+</Button>
+        <Button className="m-1" onClick={subtractChoice} data-testid="subChoice">-</Button>
+        <Button className="m-1" onClick={addChoice} data-testid="addChoice">+</Button>
         <div className='submit-button'>
-          <Button variant="primary" type="submit">Submit</Button>
+          <Button className="mt-3 m-1" variant="primary" type="submit">Submit</Button>
         </div>
       </Form>
     </div>

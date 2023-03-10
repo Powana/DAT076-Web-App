@@ -2,7 +2,6 @@ import React, {useState, useEffect, createRef, useRef} from 'react';
 import { Button, Form, FormControl, FormGroup, FormLabel } from 'react-bootstrap';
 import { useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
-import './Edit.css';
 
 function Edit() {
   const [question, setQuestion] = useState<string>();

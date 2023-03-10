@@ -1,4 +1,4 @@
-.Poll-header {
+.App-header {
     text-align: center;
     background-color: rgb(62, 62, 219);
     align-items: center;
@@ -10,28 +10,24 @@
     font-size: 60px;
     padding-top: 0.5vh;
   }
-  
-  .NewPoll{
-    text-align: center;
-    align-items: center;
-    padding-bottom: 2vh;
-    margin-bottom: 2vh;
-  }
-  
-  .choiceBox{
-    padding-bottom: 2vh;
-    margin-bottom: 2vh;
-  }
-  
-  .Button{
-    padding-bottom: 1vh;
-    margin-bottom: 1vh;
-  }
-  
-  .submit-button {
-    margin-top: 8vh;
-  }
 
+  
+  .content {
+    display: flex;
+    justify-content: center;
+    margin-top: 10vh;
+  }
+  
+  .content Button {
+    min-width: 300px;
+  }
+  
+  .content Button a{
+    text-decoration: none;
+    color: white;
+  }
+  
+  
   .comment-section {
     margin-top: 5vh;
   }

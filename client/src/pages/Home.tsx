@@ -33,17 +33,17 @@ function Home() {
         <Link to="/create"><Button>Create new Poll</Button></Link>
         
         <div className="Home-vote">
-        <InputGroup size="sm" className="mb-3">
-            <InputGroup.Text id="inputGroup-sizing-sm">ID</InputGroup.Text>
-            <Form.Control
-            aria-label="Small"
-            aria-describedby="inputGroup-sizing-sm"
-            onChange={(e) => {
-                setId(parseInt(e.target.value))
-            }
-            }
-            />
-      </InputGroup>
+          <InputGroup size="sm" className="mb-3 mt-5">
+              <InputGroup.Text id="inputGroup-sizing-sm">ID</InputGroup.Text>
+              <Form.Control
+                aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm"
+                onChange={(e) => {
+                    setId(parseInt(e.target.value))
+                }
+              }
+              />
+          </InputGroup>
       <InputGroup className="mb-1">
         {voteButton}
       </InputGroup>
