@@ -6,7 +6,6 @@ import Create from './pages/Create';
 import Edit from './pages/Edit';
 import Result from './pages/Result';
 import Vote from './pages/Vote';
-import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Col, Container, Row } from 'react-bootstrap';
 
@@ -17,7 +16,7 @@ function App() {
   return (
   <div className="App">
     <header className='App-header'>
-      <h1>Pollstar</h1>
+      <h1>PollStar</h1>
     </header>
     <div className='content'>
         <BrowserRouter>
