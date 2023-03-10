@@ -69,11 +69,15 @@ export class PollService implements IPollService {
 
     async getPoll(pollID: number): Promise<Poll> {
 
-        const foundPoll = await Poll.findOne({where: {id: pollID}, include: [TextChoice, Comment]});
+        const foundPoll = await Poll.findOne({
+            where: {id: pollID}, include: [TextChoice, Comment]
+        });
         
         if (foundPoll === null) {
             return Promise.reject("No poll found.")
         }
+
+        foundPoll.choices.sort((a: TextChoice, b: TextChoice) => b.votes - a.votes)
         return foundPoll;
     }
     
