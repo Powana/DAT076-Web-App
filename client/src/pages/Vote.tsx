@@ -16,7 +16,7 @@ function Vote() {
   const navigate = useNavigate();
   
   useEffect(() => {
-      axios.get("http://localhost:8080/poll/" + id).then((response) => {
+      axios.get("https://pollstar.larssontech.com/poll/" + id).then((response) => {
           setChoices(response.data.choices);
           setQuestion(response.data.question);
           setComments(response.data.comments);
@@ -25,7 +25,7 @@ function Vote() {
   
   async function submitVote() {
     // Vote using the chosen choice ID
-    await axios.put("http://localhost:8080/poll", {'pollID': id, 'choice': chosenId})
+    await axios.put("https://pollstar.larssontech.com/poll", {'pollID': id, 'choice': chosenId})
     navigate("/result/" + id);
   }
   //TODO: Here we need conditional logic that uses "PollType"

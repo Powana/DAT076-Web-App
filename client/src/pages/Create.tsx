@@ -40,7 +40,7 @@ function Create() {
     }
     
     try {
-      let res = await axios.post("http://localhost:8080/poll", 
+      let res = await axios.post("https://pollstar.larssontech.com/poll", 
         {
           "question": newPoll.question, 
           "choices": newPoll.choices

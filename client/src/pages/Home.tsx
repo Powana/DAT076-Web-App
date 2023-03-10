@@ -10,7 +10,7 @@ function Home() {
     const [availablePollIds, setAvailablePollIds] = useState([0])
 
     useEffect(() => {
-      axios.get("http://localhost:8080/poll/").then((response) => {
+      axios.get("https://pollstar.larssontech.com/poll/").then((response) => {
         let ids = response.data.map((obj: { id: number; }) =>
           obj.id);
         setAvailablePollIds(ids);

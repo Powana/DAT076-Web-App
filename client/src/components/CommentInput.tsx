@@ -11,7 +11,7 @@ export default function CommentInput(props: {id: string}){
     async function submitComment() {
         try {
             let res = await axios.post(
-                "http://localhost:8080/poll/"+ props.id, 
+                "https://pollstar.larssontech.com/poll/"+ props.id, 
                 { "name": name, "text": comment })
     
           } catch(error) {

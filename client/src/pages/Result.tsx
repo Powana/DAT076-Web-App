@@ -13,7 +13,7 @@ function Result() {
     const { id } = useParams(); // Gets current id from url
     
     useEffect(() => {
-        axios.get("http://localhost:8080/poll/" + id).then((response) => {
+        axios.get("https://pollstar.larssontech.com/poll/" + id).then((response) => {
             setQuestion(response.data.question);
             setChoices(response.data.choices);
         });
