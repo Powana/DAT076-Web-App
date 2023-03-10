@@ -3,21 +3,27 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button, Table } from "react-bootstrap";
 import ChoiceResult from "../components/ChoiceResult";
+import Comment from "../components/Comment";
 import home from "./Home";
 import piechart from '../image/piechart.png';
 import '../App.css'
+import CommentSection from "../components/CommentSection";
+import CommentResult from "../components/CommentResult";
 
 function Result() {
 
 
     const [question, setQuestion] = useState<string>();
     const [choices, setChoices] = useState<any[]>();
+    const [comments, setComments] = useState([]);
+
     const { id } = useParams(); // Gets current id from url
     
     useEffect(() => {
         axios.get("http://localhost:8080/poll/" + id).then((response) => {
             setQuestion(response.data.question);
             setChoices(response.data.choices);
+            setComments(response.data.comments);
         });
     }, []);
 
@@ -51,6 +57,10 @@ function Result() {
             {choiceResults}
           </tbody>
         </Table>
+        <div className="comments">
+          <CommentResult id={(id ? id : "1")} comments={comments}></CommentResult>
+        </div>
+        
         <a  className="exit_button" href="../redirect"><Button variant="outline-danger">Back to start page</Button></a>     
       </div>
     )
