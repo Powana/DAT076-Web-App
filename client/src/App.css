@@ -1,38 +1,98 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.Poll-header {
+    text-align: center;
+    background-image:linear-gradient(to right, #553c9a 45%, #ee4b2b);
+    align-items: center;
+    padding-bottom: 2vh;
+    margin-bottom: 8vh;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  .App{
+    background-color: rgb(229, 221, 249);
   }
-  to {
-    transform: rotate(360deg);
+  header > h1 {
+    font-size: 60px;
+    padding-top: 0.5vh;
   }
+  
+  .NewPoll{
+    text-align: center;
+    align-items: center;
+    padding-bottom: 2vh;
+    margin-bottom: 2vh;
+  }
+  
+  .choiceBox{
+    padding-bottom: 2vh;
+    margin-bottom: 2vh;
+  }
+  
+  .exit_button{
+    position:absolute;
+    top: 100px;
+    left: 0em;
+  }
+  
+
+  .Button{
+    padding-bottom: 1vh;
+    margin-bottom: 1vh;
+  }
+  
+  .submit-button {
+    margin-top: 8vh;
+  }
+
+  .App-choices{
+      margin-top: 8vh;
+    }
+
+
+  .comment-section {
+    margin-top: 5vh;
+  }
+
+  .comment-input Button {
+    margin-top: 2vh;
+  }
+
+  .comment {
+    margin-top: 3vh;
+  }
+
+  .App-content{
+    text-align: center;
+  }
+
+  
+  
+  .id_vote{
+    position:absolute;
+    top: 140px;
+    left: 3.5em;
+    font-size: 30px;
+    font-weight: 600;
+    outline:auto;
+    text-align: center;
+    width: 6pc;
+    height: 5px;
+    outline-width: 1ex;
+    outline-color: #ff3ab0;
+    color:blueviolet
+  }
+
+  .spinner {
+    width: 300px;
+    height: 300px;
+    
+    animation-name: spin;
+    animation-duration: 4000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear; 
 }
+
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }}
