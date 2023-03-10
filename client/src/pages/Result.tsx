@@ -28,7 +28,7 @@ function Result() {
     }, []);
 
     //TODO: Calculate and sort by top choice(s)
-    const choiceResults = choices?.map(
+    const choiceResults = choices?.map( 
       choice => {
         return (
           <ChoiceResult choice={choice.text} votes={choice.votes}></ChoiceResult>
@@ -54,7 +54,7 @@ function Result() {
             </tr>
           </thead>
           <tbody>
-            {choiceResults}
+            {choiceResults?.reverse()}
           </tbody>
         </Table>
         <div className="comments">
