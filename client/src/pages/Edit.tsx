@@ -30,7 +30,7 @@ function Edit() {
 
 
   useEffect(() => {
-    axios.get("http://localhost:8080/poll/" + id).then((response) => {
+    axios.get("https://pollstar.larssontech.com/poll/" + id).then((response) => {
         setQuestion(response.data.question);
         setChoices(response.data.choices);
     });
@@ -39,7 +39,7 @@ function Edit() {
   async function submitEdit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     
-    await axios.put("http://localhost:8080/poll/"+ id, {"question": question, "choices": choices})
+    await axios.put("https://pollstar.larssontech.com/poll/"+ id, {"question": question, "choices": choices})
     navigate("/result/" + id);
   }
 
