@@ -16,7 +16,7 @@ function App() {
   return (
   <div className="App">
     <header className='App-header'>
-      <h1>PollStar</h1>
+      <h1><a className="button" href="../">PollStar</a></h1>
     </header>
     <div className='content'>
         <BrowserRouter>
