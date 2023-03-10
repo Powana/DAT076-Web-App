@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import CommentSection from "../components/CommentSection";
+import CommentInput from "../components/CommentInput";
+import CommentResult from "../components/CommentResult";
+
 import { SingleChoiceList } from "../components/SingleChoiceList";
 import '../App.css'
 
@@ -48,7 +51,9 @@ function Vote() {
       </div>
       <div className="comment-area">
       <h5 >Add a comment</h5>
-        <CommentSection id={(id ? id : "1")} comments={comments}></CommentSection>
+      
+        <CommentInput id={(id ? id : "1")}></CommentInput>
+        <CommentResult id={(id ? id : "1")} comments={comments}></CommentResult>
     </div>
     <a  className="exit_button" href="../redirect"><Button variant="outline-danger">Back to start page</Button></a>     
     </div>
