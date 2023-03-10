@@ -36,6 +36,15 @@
     padding-bottom: 1vh;
     margin-bottom: 1vh;
   }
+
+  .table_comment{
+    background-color: rgb(214, 253, 247);
+    width: 40pc;
+  }
+  .table_thead{
+    background-color: rgb(166, 230, 215);
+    text-align: center;
+  }
   
   .submit-button {
     margin-top: 8vh;
@@ -82,7 +91,8 @@
   .spinner {
     width: 300px;
     height: 300px;
-    
+    display: block;
+    margin: auto;
     animation-name: spin;
     animation-duration: 4000ms;
     animation-iteration-count: infinite;
