@@ -36,6 +36,9 @@ function Result() {
          <div className='spinner'>
           <img src={piechart} alt="" width="300" height="300"></img>
   </div>
+    <div className="id_vote">
+        <p > ID : {id}  </p>
+      </div>
         <h3 >{question}</h3>
         <Table striped bordered  >
           <thead>
