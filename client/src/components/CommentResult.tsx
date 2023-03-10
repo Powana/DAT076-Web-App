@@ -15,23 +15,26 @@ export default function CommentResult(props: {id: string, comments: Array<IComme
         }
     )
 
-
-
-    return (
-      <div className="comment-section">
-          
-          <h3 >Comments</h3>
-            <Table striped bordered className="table_comment" width={4000}>
-          <thead className="table_thead">
-            <tr>
-              <th >Name</th>
-              <th >Comment</th>
-            </tr>
-          </thead>
-          <tbody>
-            {comments}
-          </tbody>
-        </Table>
-            </div>
+        if(comments.length ==0){
+            return(<div></div>)
+        }
+    
+        return (
+            
+        <div className="comment-section">
+            
+            <h3 >Comments</h3>
+                <Table striped bordered className="table_comment" >
+            <thead className="table_thead">
+                <tr>
+                <th >Name</th>
+                <th >Comment</th>
+                </tr>
+            </thead>
+            <tbody>
+                {comments}
+            </tbody>
+            </Table>
+                </div>
           
     )}
