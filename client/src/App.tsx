@@ -7,11 +7,8 @@ import Edit from './pages/Edit';
 import Result from './pages/Result';
 import Vote from './pages/Vote';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Col, Container, Row } from 'react-bootstrap';
-
 
 function App() {
-  
 
   return (
   <div className="App">
