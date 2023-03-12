@@ -1,11 +1,11 @@
 import express, { Request, Response } from "express";
-import { PollService } from "../service/pollservice";
+import { createPollService, IPollService} from "../service/pollservice";
 import { Poll } from "../models/poll.model";
 import { IChoice, TextChoice } from "../models/choice.model";
 import { config } from "../config";
 
 export const pollRouter = express.Router();
-const pollService = new PollService();
+const pollService: IPollService = createPollService()
 
 pollRouter.route("/")
     // GET /poll/ Main page TODO: Move logic out of router
@@ -38,7 +38,7 @@ pollRouter.route("/")
                 res.status(400).send("Invalid payload")
             }
             else {
-                await pollService.createPollFromAny(question, raw_choices).then(
+                await pollService.createPoll(question, raw_choices).then(
                     (newPoll) => {  // If a new poll was succesfully created:
                         res.status(201).send(newPoll);
                     }, (error) => { // If a new poll was not created:
@@ -59,7 +59,7 @@ pollRouter.route("/")
                 res.status(400).send("Invalid payload")
             }
             
-            res.status(200).send(await pollService.incrementCount(pollID, choice));
+            res.status(201).send(await pollService.incrementCount(pollID, choice));
 
         } catch (e: any) {
             res.status(500).send(e.message);
