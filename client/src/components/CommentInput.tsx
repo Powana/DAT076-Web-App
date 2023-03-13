@@ -2,12 +2,8 @@ import axios from 'axios';
 import { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
-import { useParams, useNavigate } from "react-router-dom";
-
 
 export default function CommentInput(props: {id: string}){
-  const { id } = useParams();
-  const navigate = useNavigate();
     const [name, setName] = useState("");
     const [comment, setComment] = useState("");
 
@@ -16,7 +12,6 @@ export default function CommentInput(props: {id: string}){
              await axios.post(
                 "http://localhost:8080/poll/"+ props.id, 
                 { "name": name, "text": comment });
-                navigate("/result/" + id);
     
           } catch(error) {
             console.log(error)
