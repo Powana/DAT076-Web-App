@@ -35,6 +35,27 @@ export class PollService implements IPollService {
         poll.save();
         return true;
     }
+////////////////////////////////////////////////////////
+    async addAnswer(pollID: number, choices: Array<TextChoice>): Promise<Poll> {
+        const poll = await Poll.findOne({where: {id: pollID}, include: [TextChoice]});
+        if (!poll) return Promise.reject("No poll found");
+
+
+        choices.forEach(choice => {
+            switch (typeof(choice)){
+                case "string": {
+                    new TextChoice({text: choice, pollId: poll.id}).save();
+                    break;
+                }
+                default: {
+                    throw Error("Invalid choice type")
+                }
+            }
+        });
+
+       return poll;
+    }
+///////////////////////////////////////////////////////////////////
 
     async editPoll(pollID: number, question: string, choices: Array<TextChoice>): Promise<Poll> {
 

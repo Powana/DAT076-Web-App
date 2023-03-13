@@ -113,3 +113,21 @@ pollRouter.route("/:id")
             res.status(500).send(e.message);
         }
     })
+
+
+    ///////////////////////////////////7
+    pollRouter.route("/newchoices/:id")
+    .post(async (req : Request<{id: string}, {}, {choices: Array<TextChoice>}>, res) => {
+        try {
+
+            await pollService.addAnswer(parseInt(req.params.id), req.body.choices).then(
+                (foundPoll) => {
+                    res.status(200).send(foundPoll)
+                }, () => {
+                    res.status(400).send("Choices was not added");
+                })
+            
+        } catch (e: any) {
+            res.status(500).send(e.message);
+        }
+    })
