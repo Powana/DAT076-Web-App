@@ -4,7 +4,6 @@ import { Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 
 export default function CommentInput(props: {id: string}){
-
     const [name, setName] = useState("");
     const [comment, setComment] = useState("");
 

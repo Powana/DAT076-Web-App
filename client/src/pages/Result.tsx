@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button, Table } from "react-bootstrap";
 import ChoiceResult from "../components/ChoiceResult";
-import home from "./Home";
 
 function Result() {
 

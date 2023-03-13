@@ -1,6 +1,7 @@
 import React, { useEffect, useImperativeHandle, useState } from 'react';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
+import '../App.css'
 
 export function SingleChoiceList(props : {choices : Array<{id: number, text: string, votes: number}>, setChoice: (id: number) => void}) {
 
@@ -13,7 +14,7 @@ export function SingleChoiceList(props : {choices : Array<{id: number, text: str
 
   return (
     <>
-      <ButtonGroup vertical className="mb-2" data-testid="SingleChoiceList">
+      <ButtonGroup vertical className="vote_button" data-testid="SingleChoiceList">
         {props.choices.map((choice, idx) => (
           <ToggleButton
             key={idx}

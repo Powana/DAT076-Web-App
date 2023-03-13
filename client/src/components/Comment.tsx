@@ -3,11 +3,12 @@ export interface IComment {
     text: string
 }
 
-export default function Comment(props: {comment: IComment}){
+export default function Comment(props: {comment : String, name: String }){
 
   return (
-    <div className="comment">
-        <h3>{props.comment.name}</h3>
-        <p>{props.comment.text}</p>
-    </div>
+      <tr>
+      <td>{props.name}</td>
+      <td>{props.comment}</td>
+      </tr>
+    
   )}
