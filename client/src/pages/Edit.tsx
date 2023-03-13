@@ -12,11 +12,19 @@ function Edit() {
 
   const questionInputRef = useRef<HTMLInputElement>(null);
   let choicesInputRefs = new Array();
-  let length = choices?.length||0 
-  for (let i = 0; i < length; i++) {
+  ///
+  let newchoicesInputRefs = new Array();
+  const  old_length = choices?.length||0 ;
+  const [numChoices, setNumChoices] = useState<number>(old_length);
+  for (let i = old_length; i < numChoices; i++) {
+    newchoicesInputRefs.push(createRef<HTMLInputElement>())
+  }
+  //
+  
+  for (let i = 0; i < old_length; i++) {
     choicesInputRefs.push(createRef<HTMLInputElement>())
   }
-
+  
 
   function getChoice(index: number) {
     if (!choices) return ""
@@ -30,15 +38,14 @@ function Edit() {
   }
 
   function addChoice() {
-    if (length<10){
-      length+=1;
-      
+    if (numChoices<10){
+    setNumChoices(numChoices => numChoices + 1);
     }
   };
 
   function subtractChoice() {
-    if (length>2){
-      length-=1;
+    if (numChoices>2){
+    setNumChoices(numChoices => numChoices - 1);
     }
   };
 
@@ -57,8 +64,36 @@ function Edit() {
     navigate("/result/" + id);
   }
 
+  //////////////////////////////////////////////////////////////7
+  async function handlechoices(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    
+    if ( newchoicesInputRefs.some((choiceRef) => {return choiceRef?.current?.value == ""})) {
+      alert("All fields are not filled in.");
+      return;
+    }
+
+    //only the new choices
+    let newchoices=newchoicesInputRefs.map((choice) => {return choice?.current?.value});
+
+    try {
+      let res=await axios.post("http://localhost:8080/poll/newchoices/"+id, 
+        {
+          "choices": newchoices
+        })
+    } catch(error) {
+      console.log(error)
+    }
+
+  }
+///////////////////////////////////////////////////////////////////7
+
   return (
     <div className="Edit">
+      <div className="id_vote">
+        <p > ID : {id}  </p>
+      </div>
+      <br></br>
       <Form className="mb-3" onSubmit={submitEdit}>
         <FormGroup>
           <FormLabel column="lg">Question</FormLabel>
@@ -67,7 +102,7 @@ function Edit() {
         
         <FormGroup>
           <FormLabel column="lg">Choices:</FormLabel>
-          {[...Array(length)].map((_, i) => {
+          {[...Array(old_length)].map((_, i) => {
               return (
               <FormGroup key={i}>
                 <FormLabel>Choice</FormLabel>
@@ -77,17 +112,36 @@ function Edit() {
               )
             })}
         </FormGroup>
-      
+
+
+        <Form className='mb-3' onSubmit={handlechoices}>
+          <FormGroup key="choicesKey">
+            <FormLabel column="lg">New choices:</FormLabel>
+            {[...Array(numChoices)].map((_, i) => {
+                return (
+                <FormGroup key={i}>
+                  <FormLabel>Choice</FormLabel>
+                  <FormControl  type="text" name={i.toString()} ref={newchoicesInputRefs[i]} required data-testid="choiceInput"/> 
+                </FormGroup>
+                )
+              })}
+          </FormGroup>
+
+
         <Button onClick={subtractChoice} data-testid="subChoice">-</Button>
         <Button onClick={addChoice} data-testid="addChoice">+</Button>
+        
         <div className='submit-button'>
-           <Button variant="primary" type="submit">
-          Save
-        </Button>
+           <Button variant="primary" type="submit">Save</Button>
+        </div>
+
+        </Form>
+        <div className='submit-button'>
+           <Button variant="primary" type="submit">Save</Button>
         </div>
         
         </Form>
-      
+        <a  className="exit_button" href="../redirect"><Button variant="outline-danger">Back to start page</Button ></a>     
     </div>
   );
 }
