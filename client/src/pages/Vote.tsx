@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
-import CommentSection from "../components/CommentSection";
+//import CommentSection from "../components/CommentSection";
 import CommentInput from "../components/CommentInput";
 import CommentResult from "../components/CommentResult";
 

@@ -1,8 +1,8 @@
 import { app } from "./start";
 import { config } from "./config";
-import {TextChoice} from "./models/choice.model"
-import {Poll} from "./models/poll.model"
-import { Comment } from "./models/comment.model";
+import {TextChoice} from "./model/choice.model"
+import {Poll} from "./model/poll.model"
+import { Comment } from "./model/comment.model";
 import { Sequelize } from "sequelize-typescript";
 
 

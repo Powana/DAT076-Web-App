@@ -7,7 +7,7 @@ import Comment from "../components/Comment";
 import home from "./Home";
 import piechart from '../image/piechart.png';
 import '../App.css'
-import CommentSection from "../components/CommentSection";
+//import CommentSection from "../components/CommentSection";
 import CommentResult from "../components/CommentResult";
 
 function Result() {

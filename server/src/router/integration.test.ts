@@ -1,5 +1,5 @@
 import * as SuperTest from "supertest"
-import {Poll} from "../models/poll.model"
+import {Poll} from "../model/poll.model"
 import { app } from "../start"
 
 const request = SuperTest.default(app)

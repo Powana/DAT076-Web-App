@@ -1,6 +1,6 @@
-import { IChoice, TextChoice } from "../models/choice.model";
-import { Poll } from "../models/poll.model";
-import { Comment } from "../models/comment.model"
+import { IChoice, TextChoice } from "../model/choice.model";
+import { Poll } from "../model/poll.model";
+import { Comment } from "../model/comment.model"
 
 // Having an interface doesn't really make sense as we're only ever going to create one PollService
 // Would make more sense to create a 'Poll' interface as we could have different implementations of Polls

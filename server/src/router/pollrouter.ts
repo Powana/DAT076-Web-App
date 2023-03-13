@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { PollService } from "../service/pollservice";
-import { Poll } from "../models/poll.model";
-import { IChoice, TextChoice } from "../models/choice.model";
+import { Poll } from "../model/poll.model";
+import { IChoice, TextChoice } from "../model/choice.model";
 import { config } from "../config";
 
 export const pollRouter = express.Router();
