@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { useEffect, useState } from "react";
 import axios from "axios";
+import piechart from "../images/piechart.png"
 function Home() {
 
     const [id, setId] = useState(-1)
@@ -30,6 +31,9 @@ function Home() {
 
     return (
       <div className="Home">
+        <div className='spinner'>
+          <img src={piechart} alt="" width="300" height="300"></img>
+        </div>
         <Link to="/create"><Button>Create new Poll</Button></Link>
         
         <div className="Home-vote">

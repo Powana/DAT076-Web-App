@@ -21,8 +21,8 @@ export default function CommentSection(props: {id: string, ogComments: Array<{te
         <CommentInput id={props.id} appendComment={appendComment}></CommentInput>         
         <div>
           <h3>Comments</h3>
-          <Table striped bordered>
-            <thead>
+          <Table striped bordered className="table_comment">
+            <thead className="thead_comment">
               <tr>
                 <th>Name</th>
                 <th>Comment</th>

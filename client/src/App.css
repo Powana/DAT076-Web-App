@@ -7,7 +7,7 @@
 
 .App-header {
   text-align: center;
-  background-color: rgb(62, 62, 219);
+  background-image:linear-gradient(to right, #553c9a 45%, #ee4b2b);
   padding-bottom: 2vh;
   margin-bottom: 5vh;
 }
@@ -20,6 +20,11 @@ a {
 a:hover {
   color: unset;
   cursor: pointer;
+}
+
+.App{
+  background-color: rgb(229, 221, 249);
+  min-height: 100vh;
 }
 
 .App-choices {
@@ -53,6 +58,19 @@ a:hover {
   margin-top: 3vh;
 }
 
+.table_comment {
+  background-color: rgb(214, 253, 247);
+  max-width: 300px;
+}
+
+td {
+  word-break: break-word;
+}
+
+.thead_comment{
+  background-color: rgb(166, 230, 215);
+  text-align: center;
+}
 
 .content Button {
   min-width: 300px;
@@ -66,3 +84,23 @@ a:hover {
 .Home-vote {
   margin-top: 10vh;
 }
+
+/* Spinner */
+.spinner {
+  width: 300px;
+  height: 300px;
+  display: block;
+  margin: auto;
+  animation-name: spin;
+  animation-duration: 4000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear; 
+}
+
+@keyframes spin {
+  from {
+      transform:rotate(0deg);
+  }
+  to {
+      transform:rotate(360deg);
+  }}
