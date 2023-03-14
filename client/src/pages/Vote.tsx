@@ -16,11 +16,15 @@ function Vote() {
   const navigate = useNavigate();
   
   useEffect(() => {
-      axios.get("http://localhost:8080/poll/" + id).then((response) => {
-          setChoices(response.data.choices);
-          setQuestion(response.data.question);
-          setComments(response.data.comments);
-      });
+    // To solve issue where all choices are not displayed unless page is refreshed
+    // Define inner function to allow the await keyword
+    async function getPoll() {
+      const response = await axios.get("http://localhost:8080/poll/" + id)
+      setChoices(response.data.choices);
+      setQuestion(response.data.question);
+      setComments(response.data.comments);
+    }
+    getPoll();
   }, []);
   
   async function submitVote() {

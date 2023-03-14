@@ -93,10 +93,11 @@ function Create({editMode = false, ...restProps}) {
     }
   }
 
+  const header = (editMode) ? "Edit poll - ID: " + id : "Create a Poll"
   
   return (
     <div className="Create">
-    <h2> Create a poll </h2>
+    <h2> {header} </h2>
       <Form className="mb-3" onSubmit={handleSubmit}>
         <FormGroup key="questionKey">
           <FormLabel>Question</FormLabel>
