@@ -2,7 +2,6 @@ import axios from 'axios';
 import { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { Form, FormGroup, FormLabel, FormControl } from 'react-bootstrap';
-import { useParams, useNavigate } from "react-router-dom";
 
 
 export default function CommentInput(props: {id: string, appendComment: (name: string, text: string) => void}) {
