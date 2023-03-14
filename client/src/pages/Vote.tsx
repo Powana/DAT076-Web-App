@@ -18,6 +18,7 @@ function Vote() {
   useEffect(() => {
     // To solve issue where all choices are not displayed unless page is refreshed
     // Define inner function to allow the await keyword
+    // Might not have been needed, could have been bug in backend
     async function getPoll() {
       const response = await axios.get("http://localhost:8080/poll/" + id)
       setChoices(response.data.choices);
