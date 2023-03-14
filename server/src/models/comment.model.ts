@@ -3,9 +3,11 @@ import { Poll } from "./poll.model";
 
 @Table
 export class Comment extends Model {
+    @AllowNull(false)
     @Column
     name!: string
 
+    @AllowNull(false)
     @Column
     text!: string
 

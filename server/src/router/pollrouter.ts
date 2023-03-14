@@ -70,7 +70,6 @@ pollRouter.route("/:id")
 
     .get(async (req : Request, res : Response) => {
         try {
-            console.log("The params id is: ", parseInt(req.params.id))
             
             await pollService.getPoll(parseInt(req.params.id)).then(
                 (foundPoll) => {
@@ -102,9 +101,13 @@ pollRouter.route("/:id")
     .post(async (req : Request<{id: string}, {}, {name: string, text: string}>, res) => {
         try {
 
+            if (req.body.name == "" || req.body.text == "") {
+                res.status(400).send("Invalid payload");
+            }
+
             await pollService.addComment(parseInt(req.params.id), req.body.name, req.body.text).then(
-                (foundPoll) => {
-                    res.status(200).send(foundPoll)
+                () => {
+                    res.status(200).send()
                 }, () => {
                     res.status(400).send("Comment was not added");
                 })

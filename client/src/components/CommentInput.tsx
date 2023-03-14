@@ -1,40 +1,45 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { Button } from 'react-bootstrap';
-import Form from 'react-bootstrap/Form';
+import { Form, FormGroup, FormLabel, FormControl } from 'react-bootstrap';
 import { useParams, useNavigate } from "react-router-dom";
 
 
-export default function CommentInput(props: {id: string}){
-  const { id } = useParams();
-  const navigate = useNavigate();
-    const [name, setName] = useState("");
-    const [comment, setComment] = useState("");
+export default function CommentInput(props: {id: string, appendComment: (name: string, text: string) => void}) {
+  const [commentName, setCommentName] = useState("");
+  const [commentText, setCommentText] = useState("");
 
-    async function submitComment() {
-        try {
-             await axios.post(
-                "http://localhost:8080/poll/"+ props.id, 
-                { "name": name, "text": comment });
-                navigate("/result/" + id);
-    
-          } catch(error) {
-            console.log(error)
+  async function handleSubmitComment(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    try {
+      await axios.post(
+        "http://localhost:8080/poll/"+ props.id, 
+        { "name": commentName, "text": commentText }).catch((error) => {
+          if (error.response) {
+            alert("Error code: " + error.response.status)
           }
+        });
+      
+      props.appendComment(commentName, commentText)
+    } 
+    catch(error) {
+      alert("Could not submit comment.")
+      console.log(error)
     }
+  }
 
-    return (
-      <div className="comment-input">
-          <Form>
-            <Form.Group>
-              <Form.Label>Enter your name:</Form.Label>
-                <Form.Control type="text" required onChange={e => {setName(e.target.value);}}/>
-              
-              <Form.Label>Enter your comment:</Form.Label>
-                <Form.Control type="text" required onChange={e => {setComment(e.target.value);}}/>
-            </Form.Group>
-          </Form>
-          <Button onClick={(e) => submitComment()}>Sumbit comment</Button>
-      </div>
-    )
+  return (
+    <div className="comment-input">
+        <Form onSubmit={handleSubmitComment}>
+          <FormGroup>
+            <FormLabel>Enter your name:</FormLabel>
+              <FormControl type="text" required onChange={e => {setCommentName(e.target.value);}}/>
+            
+            <FormLabel>Enter your comment:</FormLabel>
+              <FormControl type="text" required onChange={e => {setCommentText(e.target.value);}}/>
+          </FormGroup>
+        <Button type="submit">Submit comment</Button>
+        </Form>
+    </div>
+  )
 }

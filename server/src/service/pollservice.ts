@@ -28,11 +28,8 @@ export class PollService implements IPollService {
     async addComment(pollID: number, name: string, text: string): Promise<boolean> {
         const poll = await Poll.findOne({where: {id: pollID}, include: [Comment]});
         if (!poll) return Promise.reject("No poll found");
-        const comment = new Comment({name, text})
-        comment.pollId = pollID;
+        const comment = new Comment({pollId: poll.id, name: name, text: text})
         comment.save()
-        poll.comments.push(comment)
-        poll.save();
         return true;
     }
 
@@ -78,6 +75,7 @@ export class PollService implements IPollService {
         }
 
         foundPoll.choices.sort((a: TextChoice, b: TextChoice) => b.votes - a.votes)
+        foundPoll.comments.sort((a: Comment, b: Comment) => b.createdAt - a.createdAt)
         return foundPoll;
     }
     
@@ -100,7 +98,7 @@ export class PollService implements IPollService {
     }
 
     async getAllPolls(): Promise<Poll[]> {
-        let foundPoll = await Poll.findAll({include: [TextChoice]}); 
+        let foundPoll = await Poll.findAll({include: [TextChoice, Comment]}); 
         if (foundPoll === null) {
             return Promise.reject("No poll found.")
         }

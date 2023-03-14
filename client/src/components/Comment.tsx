@@ -1,14 +1,10 @@
-export interface IComment {
-    name: string,
-    text: string
-}
 
-export default function Comment(props: {comment : String, name: String }){
+export default function Comment(props: {text : String, name: String }){
 
   return (
       <tr>
-      <td>{props.name}</td>
-      <td>{props.comment}</td>
+        <td>{props.name}</td>
+        <td>{props.text}</td>
       </tr>
     
   )}

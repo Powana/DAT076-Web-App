@@ -24,6 +24,8 @@ function Vote() {
   }, []);
   
   async function submitVote() {
+    alert("a: " + comments.length)
+
     // Vote using the chosen choice ID
     await axios.put("http://localhost:8080/poll", {'pollID': id, 'choice': chosenId})
     navigate("/result/" + id);
@@ -39,10 +41,10 @@ function Vote() {
       <div className='App-choices'>
         <SingleChoiceList choices={choices} setChoice={setChosenId}></SingleChoiceList>
       </div>
-      <div className='submitButton'>
+      <div className='submitButton mt-5 mb-9'>
         <Button onClick={submitVote}>Submit choice</Button>
       </div>
-        <CommentSection id={(id ? id : "1")} comments={comments}></CommentSection>
+        <CommentSection id={(id ? id : "-1")} ogComments={comments}></CommentSection>
     </div>
     </div>
   )
