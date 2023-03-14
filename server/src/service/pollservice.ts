@@ -12,7 +12,7 @@ export interface IPollService {
     createPoll(question : string, choices : Array<any>) : Promise<Poll>;
 
     // Increments a choice in the poll
-    incrementCount(pollID : number, choice : number) : Promise<boolean>;
+    incrementCount(pollID : number, choiceID : number) : Promise<boolean>;
 
     // Returns all polls
     getAllPolls() : Promise<Poll[]>
@@ -43,20 +43,19 @@ export class PollService implements IPollService {
         // Because the amount of choices can vary, don't bother updating the existing ones, just recreate them all.
         await TextChoice.destroy({where: {pollId: pollID}});
 
-        choices.forEach(choice => {
+        for (const choice of choices) {
             new TextChoice({text: choice, pollId: poll.id}).save();
-        });
+        };
 
-        return poll;
-        
+        return this.getPoll(poll.id);        
     }
 
-    async incrementCount(pollID: number, choice: number): Promise<boolean> {
+    async incrementCount(pollID: number, choiceID: number): Promise<boolean> {
 
         // Searches the choices for the correct pollID and choice id
         // Then incrementing value in database
         try {
-            const ch = await TextChoice.findOne({where: {pollId: pollID, id: choice}})
+            const ch = await TextChoice.findOne({where: {pollId: pollID, id: choiceID}})
             await ch?.increment({votes: +1})
         } catch (error) {
             return Promise.reject(false);
@@ -85,18 +84,20 @@ export class PollService implements IPollService {
         const poll = await new Poll({question: question}).save();
         
         // Can easily add other types of choices in future versions
-        choices.forEach(choice => {
+        for (const choice of choices) {
             switch (typeof(choice)){
                 case "string": {
-                    new TextChoice({text: choice, pollId: poll.id}).save();
+                    console.log("SERVICELAYER: " + choice)
+                    await new TextChoice({text: choice, pollId: poll.id}).save();
                     break;
                 }
                 default: {
                     throw Error("Invalid choice type")
                 }
             }
-        });
-        return poll;
+        }
+        console.log("SERVICEBB: " + poll.choices)
+        return this.getPoll(poll.id);
     }
 
     async getAllPolls(): Promise<Poll[]> {
