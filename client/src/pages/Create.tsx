@@ -7,7 +7,7 @@ import { Form, FormGroup, FormLabel, FormControl } from 'react-bootstrap';
 function Create({editMode = false, ...restProps}) {
   
   const [question, setQuestion] = useState<string>();
-  const [choices, setChoices] = useState<string[]>();
+  const [choices, setChoices] = useState<string[]>(["","",""]);
   const [numChoices, setNumChoices] = useState<number>(3);
   const navigate = useNavigate();
   const { id } = useParams();
