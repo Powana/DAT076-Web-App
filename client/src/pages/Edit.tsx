@@ -131,9 +131,6 @@ function Edit() {
         <Button onClick={subtractChoice} data-testid="subChoice">-</Button>
         <Button onClick={addChoice} data-testid="addChoice">+</Button>
         
-        <div className='submit-button'>
-           <Button variant="primary" type="submit">Save</Button>
-        </div>
 
         </Form>
         <div className='submit-button'>

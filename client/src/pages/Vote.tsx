@@ -50,11 +50,8 @@ function Vote() {
         <Button onClick={submitVote}>Submit choice</Button>
       </div>
       <div className="comment-area">
-      <h5 >Add a comment</h5>
-      
-        <CommentInput id={(id ? id : "1")}></CommentInput>
-        <CommentResult id={(id ? id : "1")} comments={comments}></CommentResult>
-    </div>
+      <CommentResult id={(id ? id : "1")} comments={comments} commentSubmitted={true}></CommentResult>
+      </div>
     <a  className="exit_button" href="../redirect"><Button variant="outline-danger">Back to start page</Button></a>     
     </div>
     </div>
