@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button, Table } from "react-bootstrap";
 import ChoiceResult from "../components/ChoiceResult";
-import home from "./Home";
+import piechart from "../images/piechart.png"
 
 function Result() {
 
@@ -19,7 +19,7 @@ function Result() {
         });
     }, []);
 
-    //TODO: Calculate and sort by top choice(s)
+    
     const choiceResults = choices?.map(
       choice => {
         return (
@@ -31,6 +31,9 @@ function Result() {
 
     return (
       <div className="Result">
+        <div className='spinner'>
+          <img src={piechart} alt="" width="300" height="300"></img>
+        </div>
         <h3>{question}</h3>
         <Table striped bordered >
           <thead>
