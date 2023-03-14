@@ -24,8 +24,6 @@ function Vote() {
   }, []);
   
   async function submitVote() {
-    alert("a: " + comments.length)
-
     // Vote using the chosen choice ID
     await axios.put("http://localhost:8080/poll", {'pollID': id, 'choice': chosenId})
     navigate("/result/" + id);

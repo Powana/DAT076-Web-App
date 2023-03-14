@@ -34,15 +34,17 @@ export class PollService implements IPollService {
     }
 
     async editPoll(pollID: number, question: string, choices: Array<TextChoice>): Promise<Poll> {
-
         const poll = await Poll.findOne({where: {id: pollID}, include: [TextChoice]});
         if (!poll) return Promise.reject("No poll found");
         // Update question
         poll.question = question;
         poll.save()
 
+        // Because the amount of choices can vary, don't bother updating the existing ones, just recreate them all.
+        await TextChoice.destroy({where: {pollId: pollID}});
+
         choices.forEach(choice => {
-            TextChoice.update({text: choice.text}, {where: {pollId: pollID, id: choice.id}})
+            new TextChoice({text: choice, pollId: poll.id}).save();
         });
 
         return poll;

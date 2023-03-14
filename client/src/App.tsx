@@ -3,7 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from './pages/Home';
 import Create from './pages/Create';
-import Edit from './pages/Edit';
 import Result from './pages/Result';
 import Vote from './pages/Vote';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -22,7 +21,7 @@ function App() {
             <Route path='/create/' element={<Create/>}/>
             <Route path='/vote/:id' element={<Vote/>}/>
             <Route path='/result/:id' element={<Result/>}/>
-            <Route path='/edit/:id' element={<Edit/>}/>
+            <Route path='/edit/:id' element={<Create editMode={true}/>}/>
             <Route path='/redirect' element={<Navigate to="/"/>}/>
           </Routes>
         </BrowserRouter>
